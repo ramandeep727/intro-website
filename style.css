@@ -289,3 +289,21 @@ section {
     text-decoration: none !important;
     color: #1f2933 !important;
 }
+.navbar {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;   /* VERY IMPORTANT */
+    pointer-events: auto;
+}
+header {
+    position: relative;
+    z-index: 1;
+}
+header {
+    pointer-events: none;
+}
+header * {
+    pointer-events: auto;
+}
