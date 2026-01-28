@@ -1,0 +1,97 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+    color: #333;
+}
+
+header {
+    background-color: #0a3d62;
+    color: white;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+section {
+    max-width: 900px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+h2 {
+    color: #0a3d62;
+}
+
+.skills span {
+    background: #e0e0e0;
+    padding: 8px 12px;
+    margin: 6px;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+footer {
+    background-color: #0a3d62;
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+@media (max-width: 600px) {
+    header {
+        padding: 40px 10px;
+    }
+
+    section {
+        padding: 20px 15px;
+    }
+}
+.profile-pic {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-top: 25px;
+    border: 4px solid white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 12px 25px;
+    background-color: #0a3d62;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background-color: #1e3799;
+}
+section {
+    animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.skills span {
+    transition: transform 0.3s, background 0.3s;
+}
+
+.skills span:hover {
+    transform: scale(1.1);
+    background: #d1d8e0;
+}
