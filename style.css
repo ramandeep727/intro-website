@@ -316,14 +316,10 @@ header * {
     pointer-events: auto;
 }
 section {
-    min-height: 100vh;
-    scroll-margin-top: 140px;
-}
-section {
-    min-height: 100vh;
     padding: 80px 20px;
     scroll-margin-top: 140px;
 }
+
 /* 📱 Mobile View Fix */
 @media (max-width: 768px) {
 
