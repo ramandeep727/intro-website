@@ -225,3 +225,6 @@ header * {
 .profile-pic:hover {
     transform: scale(1.05);
 }
+section {
+    scroll-margin-top: 100px;
+}
