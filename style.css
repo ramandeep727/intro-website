@@ -188,3 +188,19 @@ section {
     opacity: 0.9;
     margin-top: 10px;
 }
+.dark {
+    background: #0f172a;
+    color: #e5e7eb;
+}
+
+.dark section {
+    background: transparent;
+}
+
+.dark .project-card {
+    background: #1e293b;
+}
+
+.dark h2::after {
+    background: #38bdf8;
+}
