@@ -272,3 +272,20 @@ section {
 section {
     scroll-margin-top: 120px;
 }
+/* FORCE NAVBAR HORIZONTAL — OVERRIDE EVERYTHING */
+.navbar ul {
+    display: flex !important;
+    flex-direction: row !important;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.navbar li {
+    margin: 0 12px !important;
+}
+
+.navbar a {
+    text-decoration: none !important;
+    color: #1f2933 !important;
+}
