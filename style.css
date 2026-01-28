@@ -324,3 +324,42 @@ section {
     padding: 80px 20px;
     scroll-margin-top: 140px;
 }
+/* 📱 Mobile View Fix */
+@media (max-width: 768px) {
+
+    /* Bigger readable text */
+    h1 {
+        font-size: 2.2rem;
+    }
+
+    h2 {
+        font-size: 1.6rem;
+    }
+
+    p {
+        font-size: 1rem;
+        line-height: 1.8;
+    }
+
+    /* Reduce section height */
+    section {
+        min-height: auto;          /* 🔑 remove full page height */
+        padding: 50px 20px;        /* reduce vertical spacing */
+    }
+
+    /* Hero section adjustment */
+    header {
+        min-height: auto;
+        padding: 120px 20px 80px;
+    }
+
+    /* Navbar spacing */
+    .navbar {
+        padding: 10px 18px;
+        gap: 15px;
+    }
+
+    .nav-links a {
+        font-size: 14px;
+    }
+}
