@@ -50,6 +50,23 @@ body {
     z-index: 9999;
     box-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
+/* Active navbar link */
+.nav-links a.active {
+    color: var(--accent);
+    position: relative;
+    text-shadow: 0 0 10px var(--accent-soft);
+}
+
+/* Small underline indicator */
+.nav-links a.active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+}
 
 
 .nav-logo {
