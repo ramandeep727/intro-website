@@ -5,6 +5,20 @@
     <title>Raman | Computer Science Engineer & Web Developer</title>
     <meta name="description" content="Raman is a final year Computer Science Engineering student and web developer. Explore projects, skills, and download resume.">
 </head>
+<script>
+const sections = document.querySelectorAll("section");
+
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("reveal");
+        }
+    });
+}, { threshold: 0.15 });
+
+sections.forEach(section => observer.observe(section));
+</script>
+
 <body>
 <nav class="navbar">
     <div class="nav-logo">Raman</div>
