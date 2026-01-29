@@ -1,6 +1,4 @@
-/* =========================
-   RESET & GLOBAL
-========================= */
+/* RESET */
 * {
     margin: 0;
     padding: 0;
@@ -13,14 +11,12 @@ html {
 
 body {
     font-family: 'Segoe UI', sans-serif;
-    background: #020617; /* deep black */
+    background: #020617;
     color: #e5e7eb;
     line-height: 1.7;
 }
 
-/* =========================
-   NAVBAR
-========================= */
+/* NAVBAR */
 .navbar {
     position: fixed;
     top: 20px;
@@ -58,9 +54,7 @@ body {
     color: #38bdf8;
 }
 
-/* =========================
-   HERO / HEADER
-========================= */
+/* HERO */
 header {
     min-height: 100vh;
     padding: 140px 20px 100px;
@@ -69,7 +63,6 @@ header {
     align-items: center;
     justify-content: center;
     text-align: center;
-    background: radial-gradient(circle at top, #020617, #020617 70%);
 }
 
 .profile-pic {
@@ -97,28 +90,16 @@ header h1 {
     max-width: 420px;
 }
 
-/* =========================
-   SECTIONS
-========================= */
+/* SECTIONS */
 section {
     max-width: 1000px;
     margin: auto;
     padding: 80px 20px;
     scroll-margin-top: 120px;
 
-    /* scroll animation */
     opacity: 0;
     transform: translateY(40px);
     transition: all 0.8s ease;
-}
-/* FIX TEXT VISIBILITY IN DARK THEME */
-section,
-section p,
-section h2,
-section h3,
-section span,
-section li {
-    color: #e5e7eb;
 }
 
 section.reveal {
@@ -145,10 +126,7 @@ p {
     color: #d1d5db;
 }
 
-
-/* =========================
-   SKILLS
-========================= */
+/* SKILLS */
 .skills span {
     display: inline-block;
     padding: 8px 14px;
@@ -165,9 +143,7 @@ p {
     color: #020617;
 }
 
-/* =========================
-   PROJECTS
-========================= */
+/* PROJECTS */
 .projects {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -179,7 +155,6 @@ p {
     border: 1px solid #1e293b;
     padding: 24px;
     border-radius: 14px;
-    color: #e5e7eb;
     transition: transform 0.3s ease, border 0.3s ease;
 }
 
@@ -189,7 +164,6 @@ p {
 }
 
 .project-card h3 {
-    color: #e5e7eb;
     margin-bottom: 8px;
 }
 
@@ -198,9 +172,14 @@ p {
     color: #9ca3af;
 }
 
-/* =========================
-   BUTTON
-========================= */
+.project-link {
+    display: inline-block;
+    margin-top: 10px;
+    color: #38bdf8;
+    text-decoration: none;
+}
+
+/* BUTTON */
 .btn {
     display: inline-block;
     margin-top: 16px;
@@ -217,20 +196,15 @@ p {
     transform: translateY(-3px);
 }
 
-/* =========================
-   FOOTER
-========================= */
+/* FOOTER */
 footer {
     text-align: center;
     padding: 20px;
     color: #94a3b8;
 }
 
-/* =========================
-   MOBILE FIXES
-========================= */
+/* MOBILE */
 @media (max-width: 768px) {
-
     header h1 {
         font-size: 2.3rem;
     }

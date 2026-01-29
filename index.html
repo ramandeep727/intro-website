@@ -1,25 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
     <title>Raman | Computer Science Engineer & Web Developer</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Raman is a final year Computer Science Engineering student and web developer. Explore projects, skills, and download resume.">
+
+    <link rel="stylesheet" href="style.css">
 </head>
-<script>
-const sections = document.querySelectorAll("section");
-
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add("reveal");
-        }
-    });
-}, { threshold: 0.15 });
-
-sections.forEach(section => observer.observe(section));
-</script>
 
 <body>
+
+<!-- NAVBAR -->
 <nav class="navbar">
     <div class="nav-logo">Raman</div>
     <ul class="nav-links">
@@ -29,15 +22,18 @@ sections.forEach(section => observer.observe(section));
         <li><a href="#contact">Contact</a></li>
     </ul>
 </nav>
+
+<!-- HERO -->
 <header>
     <img src="images/profile.jpeg" class="profile-pic" alt="Raman profile">
     <h1>Raman</h1>
     <p class="hero-text">
         Final-Year Computer Science Engineer focused on building clean, scalable
-         web applications.
+        web applications.
     </p>
 </header>
 
+<!-- ABOUT -->
 <section id="about">
     <h2>About Me</h2>
     <p>
@@ -48,6 +44,7 @@ sections.forEach(section => observer.observe(section));
     </p>
 </section>
 
+<!-- SKILLS -->
 <section id="skills">
     <h2>Skills</h2>
     <div class="skills">
@@ -60,6 +57,7 @@ sections.forEach(section => observer.observe(section));
     </div>
 </section>
 
+<!-- PROJECTS -->
 <section id="projects">
     <h2>Projects</h2>
 
@@ -87,17 +85,34 @@ sections.forEach(section => observer.observe(section));
 
     </div>
 </section>
-<section id="Contact">
+
+<!-- CONTACT -->
+<section id="contact">
     <h2>Contact</h2>
     <a href="resume/resume.pdf" download class="btn">Download Resume</a>
     <p>Email: ramandeepssingh51@gmail.com</p>
-    <p>phone : 8194847248</p>
+    <p>Phone: 8194847248</p>
     <p>GitHub: github.com/yourusername</p>
 </section>
 
 <footer>
     © 2026 Raman
 </footer>
+
+<!-- SCROLL ANIMATION SCRIPT -->
+<script>
+const sections = document.querySelectorAll("section");
+
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("reveal");
+        }
+    });
+}, { threshold: 0.15 });
+
+sections.forEach(section => observer.observe(section));
+</script>
 
 </body>
 </html>
