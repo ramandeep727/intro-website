@@ -332,11 +332,13 @@ footer {
     font-size: 14px;
     color: var(--text-muted);
 }
-#contact a {
+/* Contact links (exclude button) */
+#contact p a {
     color: var(--accent);
     text-decoration: none;
 }
 
-#contact a:hover {
+#contact p a:hover {
     text-decoration: underline;
 }
+
