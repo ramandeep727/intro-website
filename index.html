@@ -20,6 +20,8 @@
         <li><a href="#skills">Skills</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#contact">Contact</a></li>
+        <li><a href="#certifications">Certifications</a></li>
+
     </ul>
 </nav>
 
@@ -56,6 +58,46 @@
         <span>SQL</span>
     </div>
 </section>
+<section id="certifications">
+    <h2>Certifications</h2>
+
+    <div class="certifications">
+
+        <!-- HTML Certificate -->
+        <div class="cert-card">
+            <a href="certificates/html_cert.pdf" target="_blank">
+                <img src="certificates/html_cert.png"
+                     alt="HTML Certification"
+                     class="cert-img">
+            </a>
+
+            <h3>HTML Certification</h3>
+            <p class="issuer">Online Course</p>
+            <p class="cert-desc">
+                Learned semantic HTML, page structure, accessibility basics,
+                and best practices for modern web development.
+            </p>
+        </div>
+
+        <!-- Python Certificate -->
+        <div class="cert-card">
+            <a href="certificates/python.pdf" target="_blank">
+                <img src="certificates/python.png"
+                     alt="Python Certification"
+                     class="cert-img">
+            </a>
+
+            <h3>Python Programming</h3>
+            <p class="issuer">Online Course</p>
+            <p class="cert-desc">
+                Covered Python fundamentals, data types, control flow,
+                and problem-solving using practical examples.
+            </p>
+        </div>
+
+    </div>
+</section>
+
 
 <!-- PROJECTS -->
 <section id="projects">
@@ -99,10 +141,16 @@
     © 2026 Raman
 </footer>
 
-<!-- SCROLL ANIMATION SCRIPT -->
+<!-- SCROLL REVEAL + ACTIVE NAV -->
 <script>
-const sections = document.querySelectorAll("section");
+/* =========================
+   SCROLL REVEAL + ACTIVE NAV
+========================= */
 
+const sections = document.querySelectorAll("section");
+const navLinks = document.querySelectorAll(".nav-links a");
+
+/* Reveal animation */
 const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -112,7 +160,32 @@ const observer = new IntersectionObserver(entries => {
 }, { threshold: 0.15 });
 
 sections.forEach(section => observer.observe(section));
+
+/* Active navbar link */
+window.addEventListener("scroll", () => {
+    let current = "";
+
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop - 150;
+        const sectionHeight = section.offsetHeight;
+
+        if (
+            pageYOffset >= sectionTop &&
+            pageYOffset < sectionTop + sectionHeight
+        ) {
+            current = section.getAttribute("id");
+        }
+    });
+
+    navLinks.forEach(link => {
+        link.classList.remove("active");
+        if (link.getAttribute("href") === `#${current}`) {
+            link.classList.add("active");
+        }
+    });
+});
 </script>
 
 </body>
 </html>
+
