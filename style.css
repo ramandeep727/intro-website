@@ -345,4 +345,31 @@ footer {
 #contact p a:hover {
     text-decoration: underline;
 }
+/* 🔒 MOBILE NAVBAR – SAME AS PC, NO OVERFLOW */
+@media (max-width: 768px) {
+
+    .navbar {
+        left: 12px;
+        right: 12px;
+        transform: none;              /* remove centering */
+        width: auto;                  /* fit screen */
+        padding: 10px 14px;
+        gap: 16px;
+        border-radius: 40px;          /* same as PC */
+    }
+
+    .nav-links {
+        gap: 14px;                    /* slightly tighter */
+    }
+
+    .nav-links a {
+        font-size: 13px;              /* scale down, don’t wrap */
+        white-space: nowrap;
+    }
+
+    .nav-logo {
+        font-size: 15px;
+        white-space: nowrap;
+    }
+}
 
