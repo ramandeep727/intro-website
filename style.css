@@ -341,4 +341,50 @@ footer {
 #contact p a:hover {
     text-decoration: underline;
 }
+/* 📱 MOBILE NAVBAR FIX */
+@media (max-width: 768px) {
+
+    .navbar {
+        width: calc(100% - 20px);   /* fit screen */
+        left: 10px;
+        transform: none;            /* remove centering shift */
+        padding: 10px 14px;
+        border-radius: 16px;
+        justify-content: space-between;
+    }
+
+    .nav-logo {
+        font-size: 16px;
+        white-space: nowrap;        /* prevent breaking Raman */
+    }
+
+    .nav-links {
+        gap: 12px;
+        flex-wrap: wrap;            /* 🔑 allow wrapping */
+        justify-content: flex-end;
+    }
+
+    .nav-links a {
+        font-size: 13px;
+    }
+}
+/* 📱 MOBILE CONTACT FIX */
+@media (max-width: 768px) {
+
+    #contact {
+        text-align: center;
+    }
+
+    #contact .btn {
+        display: inline-block;
+        width: 100%;
+        max-width: 260px;
+        margin: 20px auto 10px;
+        text-align: center;
+    }
+
+    #contact p {
+        word-break: break-word;   /* prevents email overflow */
+    }
+}
 
