@@ -1,0 +1,126 @@
+*{
+    box-sizing:border-box;
+    font-family: Arial, sans-serif;
+}
+
+body{
+    margin:0;
+    background:#f2f4f8;
+}
+
+/* HEADER */
+
+.header{
+    background:#1e40af;
+    color:white;
+    padding:25px;
+    text-align:center;
+}
+
+.header h1{
+    margin:0;
+    font-size:28px;
+}
+
+.header p{
+    margin:5px 0 0;
+    opacity:.9;
+}
+
+/* MAIN CONTAINER */
+
+.container{
+    max-width:900px;
+    margin:30px auto;
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,.1);
+}
+
+/* FORM ELEMENTS */
+
+select,input{
+    width:100%;
+    padding:10px;
+    margin-bottom:12px;
+    border-radius:6px;
+    border:1px solid #ccc;
+}
+
+input:focus,select:focus{
+    outline:none;
+    border-color:#2563eb;
+}
+
+/* BUTTONS */
+
+button{
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:10px 16px;
+    border-radius:6px;
+    cursor:pointer;
+    margin-top:5px;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+/* PREVIEW */
+
+#preview{
+    background:#f9fafb;
+    padding:10px;
+    border-radius:6px;
+    margin-top:15px;
+}
+
+/* TABLE */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+th{
+    background:#2563eb;
+    color:white;
+    padding:10px;
+}
+
+td{
+    padding:8px;
+    border:1px solid #ddd;
+    text-align:center;
+}
+
+tr:nth-child(even){
+    background:#f3f4f6;
+}
+
+/* SMALL TEXT */
+
+label{
+    font-size:14px;
+}
+
+/* PRINT */
+
+@media print{
+    button,input,select,#preview,#holidayList{
+        display:none;
+    }
+
+    body{
+        background:white;
+    }
+
+    .container{
+        box-shadow:none;
+        margin:0;
+    }
+}
