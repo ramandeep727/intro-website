@@ -37,7 +37,7 @@ if(sessionStorage.getItem("system")==="OFF"){
 
 <br><br>
 
-<select id="course" onchange="updateStreams()">
+<select id="course" onchange="updateStreams(); autoFillSubjects()">
     <option value="BTech">BTech</option>
     <option value="MTech">MTech</option>
     <option value="BCA">BCA</option>
@@ -55,7 +55,7 @@ if(sessionStorage.getItem("system")==="OFF"){
 
 <br><br>
 
-<select id="semester">
+<select id="semester" onchange="autoFillSubjects()">
     <option>Sem 1</option>
     <option>Sem 2</option>
     <option>Sem 3</option>

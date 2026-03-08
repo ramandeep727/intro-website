@@ -1,3 +1,7 @@
+const SHEET_ID = "1kWJoIXDPWUjw4NCgKolCCtHdfPuyc_hUA8np7pejCDg";
+const SHEET_URL = `https://opensheet.elk.sh/${SHEET_ID}/Sheet1`;
+
+let sheetData = [];
 let streamsByCourse = {
     BTech:["CSE","ECE","ME","Civil"],
     MTech:["CSE","ECE","ME","Civil"],
@@ -119,6 +123,22 @@ function editCourse(college,index){
     }
 
     showPreview();
+}
+function autoFillSubjects(){
+
+    let course = document.getElementById("course").value;
+    let stream = document.getElementById("stream").value;
+    let semester = document.getElementById("semester").value;
+
+    let match = sheetData.find(r =>
+        r.Course === course &&
+        r.Stream === stream &&
+        r.Semester === semester
+    );
+
+    if(match){
+        document.getElementById("subjects").value = match.Subjects;
+    }
 }
 function addHoliday(){
 
@@ -260,3 +280,13 @@ function disableSystem(){
     alert("System Disabled by Admin");
     logout();
 }
+fetch(SHEET_URL)
+.then(res => res.json())
+.then(data => {
+    sheetData = data;
+    console.log("Sheet loaded", sheetData);
+})
+.catch(err=>{
+    console.error("Sheet error",err);
+    alert("Google Sheet not connected");
+});
