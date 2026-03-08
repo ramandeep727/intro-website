@@ -176,3 +176,37 @@ margin-top:0;
 margin-bottom:10px;
 color:#1e40af;
 }
+/* MOBILE VIEW */
+
+@media (max-width: 768px){
+
+.container{
+margin:10px;
+padding:15px;
+}
+
+.form-grid{
+grid-template-columns:1fr;
+}
+
+.header-content{
+flex-direction:column;
+text-align:center;
+}
+
+.header-text{
+text-align:center;
+}
+
+.logo{
+width:50px;
+}
+
+table{
+font-size:12px;
+}
+
+}
+#result{
+overflow-x:auto;
+}
