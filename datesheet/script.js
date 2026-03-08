@@ -2,291 +2,487 @@ const SHEET_ID = "1kWJoIXDPWUjw4NCgKolCCtHdfPuyc_hUA8np7pejCDg";
 const SHEET_URL = `https://opensheet.elk.sh/${SHEET_ID}/Sheet1`;
 
 let sheetData = [];
+
 let streamsByCourse = {
-    BTech:["CSE","ECE","ME","Civil"],
-    MTech:["CSE","ECE","ME","Civil"],
-    BCA:["General"],
-    MCA:["General"],
-    BBA:["General"],
-    MBA:["Marketing","Finance","HR"],
-    "B.COM":["Commerce"],
-    "M.COM":["Commerce"],
-    PHD:["Research"]
+BTech:["CSE","ECE","ME","Civil"],
+MTech:["CSE","ECE","ME","Civil"],
+BCA:["General"],
+MCA:["General"],
+BBA:["General"],
+MBA:["Marketing","Finance","HR"],
+"B.COM":["Commerce"],
+"M.COM":["Commerce"],
+PHD:["Research"]
 };
 
 let colleges = {};
 let holidays = [];
 
+/* STREAM UPDATE */
+
 function updateStreams(){
 
-    let course = document.getElementById("course").value;
-    let stream = document.getElementById("stream");
+let course = document.getElementById("course").value;
+let stream = document.getElementById("stream");
 
-    stream.innerHTML = "";
+stream.innerHTML="";
 
-    streamsByCourse[course].forEach(x=>{
-        stream.innerHTML += `<option>${x}</option>`;
-    });
+streamsByCourse[course].forEach(x=>{
+stream.innerHTML += `<option>${x}</option>`;
+});
+
 }
 
 updateStreams();
 
+/* ADD COURSE */
+
 function addCourse(){
 
-    let college = document.getElementById("college").value;
-    let course = document.getElementById("course").value;
-    let stream = document.getElementById("stream").value;
-    let semester = document.getElementById("semester").value;
-    let subjects = document.getElementById("subjects").value;
+let college = document.getElementById("college").value;
+let course = document.getElementById("course").value;
+let stream = document.getElementById("stream").value;
+let semester = document.getElementById("semester").value;
+let subjectsInput = document.getElementById("subjects").value;
 
-    if(!subjects){
-        alert("Enter subjects");
-        return;
-    }
-
-    if(!colleges[college]){
-        colleges[college] = [];
-    }
-
-    colleges[college].push({
-        course,
-        stream,
-        semester,
-        subjects: subjects.split(",").map(s=>s.trim())
-    });
-
-    document.getElementById("subjects").value = "";
-    document.getElementById("semester").selectedIndex = 0;
-    document.getElementById("course").selectedIndex = 0;
-    updateStreams();
-    
-    document.getElementById("stream").selectedIndex = 0;
-
-    showPreview();
+if(!subjectsInput){
+alert("Enter subjects");
+return;
 }
+
+let subjects = [];
+
+subjectsInput.split(",").forEach(s=>{
+
+let parts = s.split("|");
+
+if(parts.length < 2){
+alert("Use format: CODE|Subject Name");
+return;
+}
+
+subjects.push({
+code: parts[0].trim(),
+name: parts[1].trim()
+});
+
+});
+
+if(!colleges[college]){
+colleges[college] = [];
+}
+
+colleges[college].push({
+course,
+stream,
+semester,
+subjects
+});
+
+document.getElementById("subjects").value="";
+
+showPreview();
+
+}
+
+/* PREVIEW */
 
 function showPreview(){
 
-    let html = "";
+let preview = document.getElementById("preview");
 
-    for(let college in colleges){
+let html = "";
 
-        html += `<h3>${college}</h3>`;
+for(let college in colleges){
 
-        colleges[college].forEach((c,i)=>{
+html += `<h3>${college}</h3>`;
 
-            html += `<div style="margin-bottom:8px">
-            <b>${c.course} ${c.stream} - ${c.semester}</b>
-            <button onclick="editCourse('${college}',${i})">Edit</button>
-            <button onclick="removeCourse('${college}',${i})">Remove</button><br>`;
+colleges[college].forEach((c,i)=>{
 
-            c.subjects.forEach((s,si)=>{
-                html += `${s} <button onclick="removeSubject('${college}',${i},${si})">x</button> `;
-            });
+html += `<div style="margin-bottom:10px">
 
-            html += "</div>";
-        });
-    }
+<b>${c.course} ${c.stream} - ${c.semester}</b>
 
-    preview.innerHTML = html;
+<button onclick="editCourse('${college}',${i})">Edit</button>
+<button onclick="removeCourse('${college}',${i})">Remove</button>
+
+<br>`;
+
+c.subjects.forEach((s,si)=>{
+
+html += `${s.code} - ${s.name}
+<button onclick="removeSubject('${college}',${i},${si})">x</button> `;
+
+});
+
+html += "</div>";
+
+});
+
 }
+
+preview.innerHTML = html;
+
+}
+
+/* REMOVE */
+
 function removeCourse(college,index){
-    colleges[college].splice(index,1);
 
-    if(colleges[college].length===0){
-        delete colleges[college];
-    }
+colleges[college].splice(index,1);
 
-    showPreview();
+if(colleges[college].length===0){
+delete colleges[college];
+}
+
+showPreview();
+
 }
 
 function removeSubject(college,courseIndex,subjectIndex){
-    colleges[college][courseIndex].subjects.splice(subjectIndex,1);
-    showPreview();
+
+colleges[college][courseIndex].subjects.splice(subjectIndex,1);
+showPreview();
+
 }
+
+/* EDIT */
+
 function editCourse(college,index){
 
-    let c = colleges[college][index];
+let c = colleges[college][index];
 
-    document.getElementById("course").value = c.course;
+document.getElementById("course").value = c.course;
+updateStreams();
 
-    updateStreams();
+document.getElementById("stream").value = c.stream;
+document.getElementById("semester").value = c.semester;
 
-    document.getElementById("stream").value = c.stream;
-    document.getElementById("semester").value = c.semester;
-    document.getElementById("subjects").value = c.subjects.join(",");
+document.getElementById("subjects").value =
+c.subjects.map(s=>`${s.code}|${s.name}`).join(",");
 
-    colleges[college].splice(index,1);
+removeCourse(college,index);
 
-    if(colleges[college].length===0){
-        delete colleges[college];
-    }
-
-    showPreview();
 }
-function autoFillSubjects(){
 
-    let course = document.getElementById("course").value;
-    let stream = document.getElementById("stream").value;
-    let semester = document.getElementById("semester").value;
+/* HOLIDAYS */
 
-    let match = sheetData.find(r =>
-        r.Course === course &&
-        r.Stream === stream &&
-        r.Semester === semester
-    );
-
-    if(match){
-        document.getElementById("subjects").value = match.Subjects;
-    }
-}
 function addHoliday(){
 
-    let h = holidayDate.value;
+let h = holidayDate.value;
 
-    if(h){
-        holidays.push(new Date(h).toDateString());
-        holidayDate.value="";
-        showHolidays();
-    }
+if(h){
+holidays.push(new Date(h).toDateString());
+holidayDate.value="";
+showHolidays();
+}
+
 }
 
 function showHolidays(){
 
-    let html="<b>Holidays:</b> ";
+let html="<b>Holidays:</b> ";
 
-    holidays.forEach((h,i)=>{
-        html += `${h} <button onclick="removeHoliday(${i})">x</button> `;
-    });
+holidays.forEach((h,i)=>{
+html += `${h} <button onclick="removeHoliday(${i})">x</button> `;
+});
 
-    holidayList.innerHTML = html;
+holidayList.innerHTML = html;
+
 }
 
 function removeHoliday(i){
-    holidays.splice(i,1);
-    showHolidays();
+
+holidays.splice(i,1);
+showHolidays();
+
 }
+
+/* WORKING DATE */
 
 function getNextWorkingDate(date){
 
-    let d = new Date(date);
+let d = new Date(date);
 
-    while(true){
+while(true){
 
-        let day = d.getDay();
+let day = d.getDay();
 
-        if(skipSunday.checked && day===0){ d.setDate(d.getDate()+1); continue; }
-        if(skipSaturday.checked && day===6){ d.setDate(d.getDate()+1); continue; }
-        if(holidays.includes(d.toDateString())){ d.setDate(d.getDate()+1); continue; }
+if(skipSunday.checked && day===0){ d.setDate(d.getDate()+1); continue; }
+if(skipSaturday.checked && day===6){ d.setDate(d.getDate()+1); continue; }
+if(holidays.includes(d.toDateString())){ d.setDate(d.getDate()+1); continue; }
 
-        break;
-    }
+break;
 
-    return d;
 }
+
+return d;
+
+}
+
+/* GENERATE DATESHEET */
 
 function generate(){
 
-    if(Object.keys(colleges).length==0 || !startDate.value){
-        alert("Add courses and start date");
-        return;
-    }
-
-    let gap = Number(document.getElementById("gap").value);
-    let slots = Number(document.getElementById("slots").value);
-
-    let set = new Set();
-
-    for(let col in colleges){
-        colleges[col].forEach(c=>{
-            c.subjects.forEach(s=>set.add(s));
-        });
-    }
-
-    let subjects = Array.from(set);
-
-    let current = new Date(startDate.value);
-    let slotIndex = 0;
-    let subjectDates = {};
-
-    subjects.forEach(s=>{
-
-        current = getNextWorkingDate(current);
-
-        subjectDates[s] = {
-            date: current.toDateString(),
-            slot: (slotIndex%slots==0) ? "Morning" : "Evening"
-        };
-
-        slotIndex++;
-
-        if(slotIndex%slots==0) current.setDate(current.getDate()+gap);
-    });
-
-    let html = "<table><tr><th>College</th><th>Course</th><th>Stream</th><th>Semester</th><th>Subject</th><th>Date</th><th>Slot</th></tr>";
-
-    for(let col in colleges){
-        colleges[col].forEach(c=>{
-            c.subjects.forEach(s=>{
-                html+=`<tr>
-                <td>${col}</td>
-                <td>${c.course}</td>
-                <td>${c.stream}</td>
-                <td>${c.semester}</td>
-                <td>${s}</td>
-                <td>${subjectDates[s].date}</td>
-                <td>${subjectDates[s].slot}</td>
-                </tr>`;
-            });
-        });
-    }
-
-    html+="</table>";
-
-    result.innerHTML = html;
+if(Object.keys(colleges).length==0 || !startDate.value){
+alert("Add courses and start date");
+return;
 }
 
-async function exportPDF(){
+let gap = Number(document.getElementById("gap").value);
+let slots = Number(document.getElementById("slots").value);
 
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+let set = new Set();
 
-    doc.autoTable({html:"#result table",startY:10});
-
-    doc.save("datesheet.pdf");
+for(let col in colleges){
+colleges[col].forEach(c=>{
+c.subjects.forEach(s=>{
+set.add(JSON.stringify(s));
+});
+});
 }
+
+let subjects = Array.from(set).map(s=>JSON.parse(s));
+
+let current = new Date(startDate.value);
+let slotIndex = 0;
+let subjectDates = {};
+
+subjects.forEach(s=>{
+
+current = getNextWorkingDate(current);
+
+let key = JSON.stringify(s);
+
+subjectDates[key] = {
+date: current.toDateString(),
+slot:(slotIndex%slots==0)
+? "9:00 AM - 12:00 PM"
+: "2:00 PM - 5:00 PM"
+};
+
+slotIndex++;
+
+if(slotIndex%slots==0){
+current.setDate(current.getDate()+gap);
+}
+
+});
+
+/* BUILD TABLE */
+
+let html=`<table>
+<tr>
+<th>College</th>
+<th>Course</th>
+<th>Stream</th>
+<th>Semester</th>
+<th>Subject Code</th>
+<th>Subject</th>
+<th>Date</th>
+<th>Time</th>
+</tr>`;
+
+for(let col in colleges){
+
+colleges[col].forEach(c=>{
+
+c.subjects.forEach(s=>{
+
+let key = JSON.stringify(s);
+
+html += `<tr>
+
+<td>${col}</td>
+<td>${c.course}</td>
+<td>${c.stream}</td>
+<td>${c.semester}</td>
+<td>${s.code}</td>
+<td>${s.name}</td>
+<td>${subjectDates[key].date}</td>
+<td>${subjectDates[key].slot}</td>
+
+</tr>`;
+
+});
+
+});
+
+}
+
+html += "</table>";
+
+result.innerHTML = html;
+
+}
+
+/* EXPORT PDF */
+
+function exportPDF(){
+
+let table = document.querySelector("#result table");
+
+if(!table){
+alert("Generate DateSheet first");
+return;
+}
+
+const { jsPDF } = window.jspdf;
+
+const doc = new jsPDF();
+
+let y = 15;
+
+/* HEADER */
+
+doc.setFontSize(18);
+doc.text("CGC UNIVERSITY",105,y,{align:"center"});
+y+=8;
+
+doc.setFontSize(12);
+doc.text("Office of Controller of Examination",105,y,{align:"center"});
+y+=8;
+
+doc.text("End Semester Examination Date Sheet",105,y,{align:"center"});
+y+=10;
+
+let year = new Date().getFullYear();
+
+doc.setFontSize(11);
+doc.text("Session: "+year,14,y);
+
+y+=10;
+
+/* TABLE */
+
+doc.autoTable({
+html: table,
+startY: y,
+styles:{fontSize:9},
+headStyles:{fillColor:[37,99,235]}
+});
+
+/* SIGNATURE */
+
+let finalY = doc.lastAutoTable.finalY + 20;
+
+doc.text("Controller of Examination",150,finalY);
+
+doc.save("CGC_DateSheet.pdf");
+
+}
+
+/* EXPORT EXCEL */
 
 function exportExcel(){
 
-    let table = document.querySelector("#result table");
+let table = document.querySelector("#result table");
 
-    if(!table){ alert("Generate first"); return; }
-
-    let html = table.outerHTML.replace(/ /g,"%20");
-
-    let link=document.createElement("a");
-    link.href="data:application/vnd.ms-excel,"+html;
-    link.download="datesheet.xls";
-    link.click();
+if(!table){
+alert("Generate first");
+return;
 }
+
+let html = table.outerHTML.replace(/ /g,"%20");
+
+let link = document.createElement("a");
+
+link.href="data:application/vnd.ms-excel,"+html;
+link.download="datesheet.xls";
+link.click();
+
+}
+
+/* LOGIN */
+
 function logout(){
-    sessionStorage.removeItem("loggedIn");
-    window.location.replace("login.html");
-}
 
+sessionStorage.removeItem("loggedIn");
+window.location.replace("login.html");
+
+}
 
 function disableSystem(){
-    localStorage.setItem("system","OFF");
-    alert("System Disabled by Admin");
-    logout();
+
+localStorage.setItem("system","OFF");
+alert("System Disabled by Admin");
+logout();
+
 }
+
+/* GOOGLE SHEET */
+
 fetch(SHEET_URL)
 .then(res => res.json())
 .then(data => {
-    sheetData = data;
-    console.log("Sheet loaded", sheetData);
+sheetData = data;
 })
-.catch(err=>{
-    console.error("Sheet error",err);
-    alert("Google Sheet not connected");
+.catch(()=>{
+alert("Google Sheet not connected");
 });
+
+/* EXCEL UPLOAD */
+
+function uploadExcel(){
+
+let file = document.getElementById("excelFile").files[0];
+
+if(!file){
+alert("Select Excel file");
+return;
+}
+
+let reader = new FileReader();
+
+reader.onload=function(e){
+
+let data = new Uint8Array(e.target.result);
+let workbook = XLSX.read(data,{type:"array"});
+
+let sheet = workbook.Sheets[workbook.SheetNames[0]];
+let rows = XLSX.utils.sheet_to_json(sheet);
+
+rows.forEach(r=>{
+
+let college=r.College;
+let course=r.Course;
+let stream=r.Stream;
+let semester=r.Semester;
+
+let parts=r.Subject.split("|");
+
+let subject={
+code:parts[0].trim(),
+name:parts[1].trim()
+};
+
+if(!colleges[college]){
+colleges[college]=[];
+}
+
+let existing=colleges[college].find(c=>
+c.course===course &&
+c.stream===stream &&
+c.semester===semester
+);
+
+if(existing){
+existing.subjects.push(subject);
+}else{
+colleges[college].push({
+course,
+stream,
+semester,
+subjects:[subject]
+});
+}
+
+});
+
+showPreview();
+
+};
+
+reader.readAsArrayBuffer(file);
+
+}
