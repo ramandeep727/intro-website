@@ -3,38 +3,92 @@ const SHEET_URL = `https://opensheet.elk.sh/${SHEET_ID}/Sheet1`;
 
 let sheetData = [];
 
-let streamsByCourse = {
-BTech:["CSE","ECE","ME","Civil"],
-MTech:["CSE","ECE","ME","Civil"],
-BCA:["General"],
-MCA:["General"],
+const collegeData = {
+
+"Chandigarh Engineering College (CEC)":{
+
+BTech:["CSE","ECE","ME","AIML","AIDS","CIVIL","CSE-DS","CSE-IOT","RAI"],
+MTech:["CSE","ECE","ME","AIML","AIDS","CIVIL","CSE-DS","CSE-IOT","RAI"],
+MBA:["General","MBA-BA","MBA-DM"]
+
+},
+
+"Chandigarh College of Engineering (CCE)":{
+
+BTech:["Civil","ME"],
+MTech:["Civil"]
+
+},
+
+"Chandigarh School of Business (CSB)":{
+
 BBA:["General"],
+BCA:["General"],
+BAJMC:["General"],
+BCom:["General"],
+MBA:["General","MBA-FT",],
+BSc:["B.Sc-FD","B.Sc-MM","B.Sc-IT","B.Sc-GWD","B.Sc-CS","B.Sc-RIT","B.Sc-BT","B.Sc-MLS","B.Sc-OTT","B.Sc-AOTT","B.Sc-FS","B.Sc-N&D"],
+MCA:["General"]
+
+},
+
+"Chandigarh Pharmacy College (CPC)":{
+
+BPharma:["General"],
+
+
+
+},
+
+"CGC University":{
+
+BTech:["CSE","ECE","ME","Civil"],
 MBA:["Marketing","Finance","HR"],
-"B.COM":["Commerce"],
-"M.COM":["Commerce"],
-PHD:["Research"]
+BBA:["General"],
+BCA:["General"]
+
+
+}
+
+
 };
 
 let colleges = {};
 let holidays = [];
 
+function updateCourses(){
+
+let college = document.getElementById("college").value;
+let courseSelect = document.getElementById("course");
+
+courseSelect.innerHTML="";
+
+let courses = Object.keys(collegeData[college]);
+
+courses.forEach(c=>{
+courseSelect.innerHTML += `<option value="${c}">${c}</option>`;
+});
+
+updateStreams();
+
+}
 /* STREAM UPDATE */
 
 function updateStreams(){
 
+let college = document.getElementById("college").value;
 let course = document.getElementById("course").value;
-let stream = document.getElementById("stream");
+let streamSelect = document.getElementById("stream");
 
-stream.innerHTML="";
+streamSelect.innerHTML="";
 
-streamsByCourse[course].forEach(x=>{
-stream.innerHTML += `<option>${x}</option>`;
+let streams = collegeData[college][course];
+
+streams.forEach(s=>{
+streamSelect.innerHTML += `<option>${s}</option>`;
 });
 
 }
-
-updateStreams();
-
 /* ADD COURSE */
 
 function addCourse(){
@@ -486,3 +540,4 @@ showPreview();
 reader.readAsArrayBuffer(file);
 
 }
+updateCourses();
