@@ -175,6 +175,13 @@ html += "</div>";
 
 }
 
+let totalCourses = 0;
+
+for(let col in colleges){
+totalCourses += colleges[col].length;
+}
+
+html = `<b>Total Courses Added: ${totalCourses}</b><br><br>` + html;
 preview.innerHTML = html;
 
 }
@@ -276,6 +283,8 @@ return d;
 
 /* GENERATE DATESHEET */
 
+/* GENERATE DATESHEET */
+
 function generate(){
 
 if(Object.keys(colleges).length==0 || !startDate.value){
@@ -284,44 +293,30 @@ return;
 }
 
 let gap = Number(document.getElementById("gap").value);
-let slots = Number(document.getElementById("slots").value);
+let oddSlot = document.getElementById("oddSlot").value;
+let evenSlot = document.getElementById("evenSlot").value;
 
-let set = new Set();
+/* START DATE */
 
-for(let col in colleges){
-colleges[col].forEach(c=>{
-c.subjects.forEach(s=>{
-set.add(JSON.stringify(s));
-});
-});
+let start = document.getElementById("startDate").value;
+let parts = start.split("-");
+let startDateObj = new Date(parts[0], parts[1]-1, parts[2]);
+
+/* EXAM TYPE TIMINGS */
+
+let examType = document.getElementById("examType").value;
+
+let morningTime;
+let eveningTime;
+
+if(examType === "MST"){
+morningTime = "10:00 AM - 11:30 AM";
+eveningTime = "1:00 PM - 2:30 PM";
 }
-
-let subjects = Array.from(set).map(s=>JSON.parse(s));
-
-let current = new Date(startDate.value);
-let slotIndex = 0;
-let subjectDates = {};
-
-subjects.forEach(s=>{
-
-current = getNextWorkingDate(current);
-
-let key = JSON.stringify(s);
-
-subjectDates[key] = {
-date: current.toDateString(),
-slot:(slotIndex%slots==0)
-? "9:00 AM - 12:00 PM"
-: "2:00 PM - 5:00 PM"
-};
-
-slotIndex++;
-
-if(slotIndex%slots==0){
-current.setDate(current.getDate()+gap);
+else{
+morningTime = "9:00 AM - 12:00 PM";
+eveningTime = "2:00 PM - 5:00 PM";
 }
-
-});
 
 /* BUILD TABLE */
 
@@ -331,19 +326,47 @@ let html=`<table>
 <th>Course</th>
 <th>Stream</th>
 <th>Semester</th>
+<th>Status</th>
 <th>Subject Code</th>
 <th>Subject</th>
 <th>Date</th>
 <th>Time</th>
 </tr>`;
 
+/* GENERATE DATES PER COURSE */
+
 for(let col in colleges){
 
 colleges[col].forEach(c=>{
 
-c.subjects.forEach(s=>{
+let courseDate = new Date(startDateObj);
 
-let key = JSON.stringify(s);
+/* DETECT SEMESTER TYPE */
+
+let semNumber = parseInt(c.semester.replace("Sem ",""));
+let semesterType = (semNumber % 2 === 0) ? "even" : "odd";
+
+let slotRule = (semesterType === "even") ? evenSlot : oddSlot;
+
+c.subjects.forEach((s,i)=>{
+
+courseDate = getNextWorkingDate(courseDate);
+
+/* SLOT LOGIC */
+
+let timeSlot;
+
+if(slotRule === "morning"){
+timeSlot = morningTime;
+}
+else if(slotRule === "evening"){
+timeSlot = eveningTime;
+}
+else{
+timeSlot = (i % 2 === 0) ? morningTime : eveningTime;
+}
+
+/* TABLE ROW */
 
 html += `<tr>
 
@@ -351,12 +374,17 @@ html += `<tr>
 <td>${c.course}</td>
 <td>${c.stream}</td>
 <td>${c.semester}</td>
+<td>${s.status || "Regular"}</td>
 <td>${s.code}</td>
 <td>${s.name}</td>
-<td>${subjectDates[key].date}</td>
-<td>${subjectDates[key].slot}</td>
+<td>${courseDate.toDateString()}</td>
+<td>${timeSlot}</td>
 
 </tr>`;
+
+/* MOVE DATE */
+
+courseDate.setDate(courseDate.getDate() + gap);
 
 });
 
@@ -366,10 +394,9 @@ html += `<tr>
 
 html += "</table>";
 
-result.innerHTML = html;
+document.getElementById("result").innerHTML = html;
 
 }
-
 /* EXPORT PDF */
 
 function exportPDF(){
@@ -397,11 +424,12 @@ doc.setFontSize(12);
 doc.text("Office of Controller of Examination",105,y,{align:"center"});
 y+=8;
 
-doc.text("End Semester Examination Date Sheet",105,y,{align:"center"});
-y+=10;
+let examType = document.getElementById("examType").value;
 
-let year = new Date().getFullYear();
+doc.text(examType + " Examination Date Sheet",105,y,{align:"center"});
+y += 8;
 
+let year = new Date(document.getElementById("startDate").value).getFullYear();
 doc.setFontSize(11);
 doc.text("Session: "+year,14,y);
 
@@ -498,31 +526,52 @@ let rows = XLSX.utils.sheet_to_json(sheet);
 
 rows.forEach(r=>{
 
-let college=r.College;
-let course=r.Course;
-let stream=r.Stream;
-let semester=r.Semester;
+let college = r.College;
 
-let parts=r.Subject.split("|");
+/* COURSE + STREAM FROM BRANCH NAME */
+
+let branch = r.branchName;
+
+let course = branch.includes("B.Tech") ? "BTech" :
+             branch.includes("M.Tech") ? "MTech" :
+             branch.includes("MBA") ? "MBA" :
+             branch.includes("BBA") ? "BBA" :
+             branch.includes("BCA") ? "BCA" : "General";
+
+let stream = branch;
+
+/* SEMESTER */
+
+let semester = "Sem " + r.Sem;
+
+/* SUBJECT */
 
 let subject={
-code:parts[0].trim(),
-name:parts[1].trim()
+code: r.subCode,
+name: r.subTitle,
+status: (r["R/RP"] === "RP") ? "Reappear" : "Regular"
 };
 
 if(!colleges[college]){
 colleges[college]=[];
 }
 
-let existing=colleges[college].find(c=>
+/* CHECK IF SAME COURSE ALREADY EXISTS */
+
+let existing = colleges[college].find(c=>
 c.course===course &&
 c.stream===stream &&
 c.semester===semester
 );
 
 if(existing){
+
+if(!existing.subjects.find(s => s.code === subject.code)){
 existing.subjects.push(subject);
-}else{
+}
+
+}
+else{
 colleges[college].push({
 course,
 stream,

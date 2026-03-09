@@ -157,6 +157,14 @@ if(localStorage.getItem("system") === "OFF"){
 <div class="form-grid">
 
 <div>
+<label>Exam Type</label>
+<select id="examType">
+<option value="MST">MST</option>
+<option value="End Semester">End Semester</option>
+</select>
+</div>
+
+<div>
 <label>Start Date</label>
 <input type="date" id="startDate">
 </div>
@@ -166,11 +174,22 @@ if(localStorage.getItem("system") === "OFF"){
 <input type="number" id="gap" value="1">
 </div>
 
+
 <div>
-<label>Slots per day</label>
-<select id="slots">
-<option value="1">Morning only</option>
-<option value="2">Morning + Evening</option>
+<label>Odd Semester Slot</label>
+<select id="oddSlot">
+<option value="morning">Morning</option>
+<option value="evening">Evening</option>
+<option value="both">Morning + Evening</option>
+</select>
+</div>
+
+<div>
+<label>Even Semester Slot</label>
+<select id="evenSlot">
+<option value="morning">Morning</option>
+<option value="evening">Evening</option>
+<option value="both">Morning + Evening</option>
 </select>
 </div>
 
@@ -179,6 +198,7 @@ if(localStorage.getItem("system") === "OFF"){
 <input type="checkbox" id="skipSunday" checked> Skip Sunday
 <input type="checkbox" id="skipSaturday"> Skip Saturday
 </div>
+
 
 </div>
 
