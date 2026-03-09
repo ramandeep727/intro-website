@@ -1,212 +1,224 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CGC Examination DateSheet</title>
+    <meta charset="UTF-8">
+    <title>Raman | Computer Science Engineer & Web Developer</title>
 
-<link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Raman is a final year Computer Science Engineering student and web developer. Explore projects, skills, and download resume.">
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
-
+    <link rel="stylesheet" href="style.css">
 </head>
-
 
 <body>
 
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-logo">Raman</div>
+    <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#certifications">Certifications</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+
+
+<!-- HERO -->
+<header>
+    <img src="images/profile.jpeg" class="profile-pic" alt="Raman profile">
+    <h1>Raman</h1>
+    <p class="hero-text">
+        Final-Year Computer Science Engineer focused on building clean, scalable
+        web applications.
+    </p>
+</header>
+
+<!-- ABOUT -->
+<section id="about">
+    <h2>About Me</h2>
+    <p>
+        Final-year Computer Science Engineering student with a strong interest in web
+        development and software engineering. Passionate about building practical,
+        user-centric applications and continuously improving technical skills through
+        hands-on projects.
+    </p>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+    <h2>Skills</h2>
+    <div class="skills">
+        <span>HTML</span>
+        <span>CSS</span>
+        <span>JavaScript</span>
+        <span>Python</span>
+        <span>Django</span>
+        <span>SQL</span>
+    </div>
+</section>
+<section id="certifications">
+    <h2>Certifications</h2>
+
+    <div class="certifications">
+
+        <!-- HTML Certificate -->
+        <div class="cert-card">
+            <a href="certificates/html_cert.pdf" target="_blank">
+                <img src="certificates/html_cert.png"
+                     alt="HTML Certification"
+                     class="cert-img">
+            </a>
+
+            <h3>HTML Certification</h3>
+            <p class="issuer">Online Course</p>
+            <p class="cert-desc">
+                Learned semantic HTML, page structure, accessibility basics,
+                and best practices for modern web development.
+            </p>
+        </div>
+
+        <!-- Python Certificate -->
+        <div class="cert-card">
+            <a href="certificates/python.pdf" target="_blank">
+                <img src="certificates/python.png"
+                     alt="Python Certification"
+                     class="cert-img">
+            </a>
+
+            <h3>Python Programming</h3>
+            <p class="issuer">Online Course</p>
+            <p class="cert-desc">
+                Covered Python fundamentals, data types, control flow,
+                and problem-solving using practical examples.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- PROJECTS -->
+<section id="projects">
+    <h2>Projects</h2>
+
+    <div class="projects">
+
+        <div class="project-card">
+            <h3>Animal Welfare Management System</h3>
+            <p>
+                A web-based application designed to manage animal welfare data,
+                shelters, and related operations efficiently.
+            </p>
+            <p class="tech">Technologies: Python, Django, PostgreSQL</p>
+            <a href="#" class="project-link">View Project</a>
+        </div>
+
+        <div class="project-card">
+            <h3>Student File Tracking System</h3>
+            <p>
+                A system developed to track and manage physical student files
+                within an administrative office environment.
+            </p>
+            <p class="tech">Technologies: Python, Excel Automation</p>
+            <a href="#" class="project-link">View Project</a>
+        </div>
+        <div class="project-card">
+
+
+  <h3>University Exam Scheduler</h3>
+
+  <p>
+    Frontend admin panel built using HTML, CSS and JavaScript to manage
+    multi-college exam schedules with clash-free subject allocation,
+    holidays, PDF/Excel export and session-based login.
+  </p>
+
+  <a href="/datesheet/login.html" class="project-link" target="_blank">View Project</a>
+</div>
+
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+    <h2>Contact</h2>
+
+    <a href="resume/resume.pdf" download class="btn">Download Resume</a>
+
+    <p>
+        Email:
+        <a href="mailto:ramandeepssingh51@gmail.com">
+            ramandeepssingh51@gmail.com
+        </a>
+    </p>
+
+    <p>
+        Phone:
+        <a href="tel:+918194847248">
+            +91 81948 47248
+        </a>
+    </p>
+
+    <p>
+        GitHub:
+        <a href="https://github.com/ramandeep727" target="_blank">
+            github.com/ramandeep727
+        </a>
+    </p>
+</section>
+
+<footer>
+    © 2026 Raman
+</footer>
+
+<!-- SCROLL REVEAL + ACTIVE NAV -->
 <script>
+/* =========================
+   SCROLL REVEAL + ACTIVE NAV
+========================= */
 
-/* LOGIN CHECK */
+const sections = document.querySelectorAll("section");
+const navLinks = document.querySelectorAll(".nav-links a");
 
-if(sessionStorage.getItem("loggedIn") !== "yes"){
-    window.location = "login.html";
-}
+/* Reveal animation */
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("reveal");
+        }
+    });
+}, { threshold: 0.15 });
 
-/* SYSTEM STATUS CHECK */
+sections.forEach(section => observer.observe(section));
 
-if(localStorage.getItem("system") === "OFF"){
-    document.body.innerHTML =
-    "<h2 style='text-align:center;margin-top:150px'>System Disabled by Administrator</h2>";
-}
+/* Active navbar link */
+window.addEventListener("scroll", () => {
+    let current = "";
 
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop - 150;
+        const sectionHeight = section.offsetHeight;
+
+        if (
+            pageYOffset >= sectionTop &&
+            pageYOffset < sectionTop + sectionHeight
+        ) {
+            current = section.getAttribute("id");
+        }
+    });
+
+    navLinks.forEach(link => {
+        link.classList.remove("active");
+        if (link.getAttribute("href") === `#${current}`) {
+            link.classList.add("active");
+        }
+    });
+});
 </script>
 
-
-<!-- HEADER -->
-
-<div class="header">
-
-<div class="header-content">
-
-<img src="logo.png" class="logo">
-
-<div class="header-text">
-<h1>CGC University</h1>
-<p>Examination DateSheet Generator</p>
-</div>
-
-</div>
-
-<div class="header-buttons">
-<button onclick="logout()">Logout</button>
-<button onclick="disableSystem()">Disable System</button>
-</div>
-
-</div>
-
-
-
-<!-- MAIN CONTAINER -->
-
-<div class="container">
-
-
-<!-- COLLEGE -->
-
-<div class="section">
-
-<h3>Course Details</h3>
-
-<div class="form-grid">
-
-<select id="college" onchange="updateCourses()">
-<option>Chandigarh Engineering College (CEC)</option>
-<option>Chandigarh College of Engineering (CCE)</option>
-<option>Chandigarh School of Business (CSB)</option>
-<option>Chandigarh Pharmacy College (CPC)</option>
-<option>CGC University</option>
-</select>
-
-<select id="course" onchange="updateStreams(); autoFillSubjects()">
-<option value="BTech">BTech</option>
-<option value="MTech">MTech</option>
-<option value="BCA">BCA</option>
-<option value="MCA">MCA</option>
-<option value="BBA">BBA</option>
-<option value="MBA">MBA</option>
-<option value="B.COM">B.COM</option>
-<option value="M.COM">M.COM</option>
-<option value="PHD">PHD</option>
-</select>
-
-<select id="stream"></select>
-
-<select id="semester" onchange="autoFillSubjects()">
-<option>Sem 1</option>
-<option>Sem 2</option>
-<option>Sem 3</option>
-<option>Sem 4</option>
-<option>Sem 5</option>
-<option>Sem 6</option>
-<option>Sem 7</option>
-<option>Sem 8</option>
-</select>
-
-</div>
-
-</div>
-
-<br><br>
-
-
-<!-- SUBJECTS -->
-<h3>Upload Subjects via Excel</h3>
-
-<input type="file" id="excelFile" accept=".xlsx,.xls">
-<button onclick="uploadExcel()">Upload Excel</button>
-
-<br><br>
-<input id="subjects" placeholder="Example: CS301|Data Structures, CS302|Operating Systems">
-
-<br><br>
-
-
-<button onclick="addCourse()">Add Course</button>
-
-
-<hr>
-
-
-<!-- PREVIEW -->
-
-<div id="preview"></div>
-
-
-
-
-<div class="section">
-
-<h3>Holidays</h3>
-
-<input type="date" id="holidayDate">
-
-<button onclick="addHoliday()">Add Holiday</button>
-
-<div id="holidayList"></div>
-
-</div>
-
-
-<div class="section">
-
-<h3>Exam Settings</h3>
-
-<div class="form-grid">
-
-<div>
-<label>Start Date</label>
-<input type="date" id="startDate">
-</div>
-
-<div>
-<label>Gap Days</label>
-<input type="number" id="gap" value="1">
-</div>
-
-<div>
-<label>Slots per day</label>
-<select id="slots">
-<option value="1">Morning only</option>
-<option value="2">Morning + Evening</option>
-</select>
-</div>
-
-<div>
-<label>Weekend Rules</label><br>
-<input type="checkbox" id="skipSunday" checked> Skip Sunday
-<input type="checkbox" id="skipSaturday"> Skip Saturday
-</div>
-
-</div>
-
-</div>
-
-<div class="section">
-
-<h3>Generate DateSheet</h3>
-
-<button onclick="generate()">Generate DateSheet</button>
-
-<button onclick="exportPDF()">Export PDF</button>
-
-<button onclick="exportExcel()">Export Excel</button>
-
-</div>
-
-<div class="section">
-
-<h3>Generated DateSheet</h3>
-
-<div id="result"></div>
-
-</div>
-
-
-<script src="script.js"></script>
-
 </body>
-
 </html>
+
