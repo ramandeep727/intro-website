@@ -3,6 +3,8 @@ const SHEET_URL = `https://opensheet.elk.sh/${SHEET_ID}/Sheet1`;
 
 let sheetData = [];
 
+let examLoad = {};
+
 const collegeData = {
 
 "Chandigarh Engineering College (CEC)":{
@@ -292,6 +294,8 @@ return d;
 /* GENERATE DATESHEET */
 
 function generate(){
+examLoad = {};
+
 
 if(Object.keys(colleges).length==0 || !startDate.value){
 alert("Add courses and start date");
@@ -371,6 +375,21 @@ timeSlot = eveningTime;
 else{
 timeSlot = (i % 2 === 0) ? morningTime : eveningTime;
 }
+
+/* EXAM LOAD COUNT */
+
+let dateKey = courseDate.toDateString();
+
+if(!examLoad[dateKey]){
+examLoad[dateKey] = {morning:0, evening:0};
+}
+
+if(timeSlot === morningTime){
+examLoad[dateKey].morning++;
+}else{
+examLoad[dateKey].evening++;
+}
+
 
 /* TABLE ROW */
 
@@ -596,3 +615,31 @@ reader.readAsArrayBuffer(file);
 
 }
 updateCourses();
+
+function showExamLoad(){
+
+let panel = document.getElementById("examLoadPanel");
+
+if(panel.style.display === "block"){
+panel.style.display = "none";
+return;
+}
+
+let html = "<h3>Exam Load Summary</h3>";
+
+for(let d in examLoad){
+
+html += `
+<div style="margin-bottom:10px">
+<b>${d}</b><br>
+Morning : ${examLoad[d].morning} exams<br>
+Evening : ${examLoad[d].evening} exams
+</div>
+`;
+
+}
+
+panel.innerHTML = html;
+panel.style.display = "block";
+
+}

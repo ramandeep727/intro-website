@@ -214,6 +214,8 @@ if(localStorage.getItem("system") === "OFF"){
 
 <button onclick="generate()">Generate DateSheet</button>
 
+<button onclick="showExamLoad()">Show Exam Load</button>
+
 <button onclick="exportPDF()">Export PDF</button>
 
 <button onclick="exportExcel()">Export Excel</button>
@@ -221,6 +223,8 @@ if(localStorage.getItem("system") === "OFF"){
 </div>
 
 <div class="section">
+
+<div id="examLoadPanel" style="display:none; margin-top:20px;"></div>
 
 <h3>Generated DateSheet</h3>
 
