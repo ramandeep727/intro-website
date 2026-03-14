@@ -242,15 +242,21 @@ showHolidays();
 
 function showHolidays(){
 
-let html="<b>Holidays:</b> ";
+let html = "<b>Holidays:</b><br>";
 
 holidays.forEach((h,i)=>{
-html += `${h} <button onclick="removeHoliday(${i})">x</button> `;
+html += `
+<div class="holiday-chip">
+${h}
+<button onclick="removeHoliday(${i})">×</button>
+</div>
+`;
 });
 
 holidayList.innerHTML = html;
 
 }
+
 
 function removeHoliday(i){
 

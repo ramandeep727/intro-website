@@ -239,3 +239,32 @@ margin:0;
 }
 
 }
+
+input[type="date"]{
+cursor:pointer;
+}
+
+.holiday-chip{
+display:inline-flex;
+align-items:center;
+background:#eef2ff;
+color:#1e3a8a;
+padding:6px 10px;
+border-radius:20px;
+margin:4px;
+font-size:13px;
+}
+
+.holiday-chip button{
+margin-left:6px;
+border:none;
+background:#ef4444;
+color:white;
+border-radius:50%;
+width:18px;
+height:18px;
+cursor:pointer;
+font-size:11px;
+line-height:16px;
+}
+

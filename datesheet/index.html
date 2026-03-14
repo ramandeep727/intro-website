@@ -141,7 +141,9 @@ if(localStorage.getItem("system") === "OFF"){
 
 <h3>Holidays</h3>
 
-<input type="date" id="holidayDate">
+<input type="date" id="holidayDate" onclick="this.showPicker()" onfocus="this.showPicker()" onkeydown="if(event.key==='Enter') addHoliday()">
+
+
 
 <button onclick="addHoliday()">Add Holiday</button>
 
@@ -166,7 +168,9 @@ if(localStorage.getItem("system") === "OFF"){
 
 <div>
 <label>Start Date</label>
-<input type="date" id="startDate">
+<input type="date" id="startDate" onclick="this.showPicker()" onfocus="this.showPicker()">
+
+
 </div>
 
 <div>
