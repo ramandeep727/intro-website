@@ -178,33 +178,74 @@ if(localStorage.getItem("system") === "OFF"){
 <input type="number" id="gap" value="1">
 </div>
 
-
 <div>
-<label>Odd Semester Slot</label>
-<select id="oddSlot">
-<option value="morning">Morning</option>
-<option value="evening">Evening</option>
-<option value="both">Morning + Evening</option>
-</select>
+<label>Morning Slot Time</label>
+<input type="text" id="morningTimeInput" placeholder="e.g. 9:00 AM - 12:00 PM">
 </div>
 
 <div>
-<label>Even Semester Slot</label>
-<select id="evenSlot">
-<option value="morning">Morning</option>
-<option value="evening">Evening</option>
-<option value="both">Morning + Evening</option>
-</select>
+<label>Evening Slot Time</label>
+<input type="text" id="eveningTimeInput" placeholder="e.g. 2:00 PM - 5:00 PM">
 </div>
 
 <div>
-<label>Weekend Rules</label><br>
-<input type="checkbox" id="skipSunday" checked> Skip Sunday
-<input type="checkbox" id="skipSaturday"> Skip Saturday
+<label>Block</label>
+<input type="number" id="blockInput" placeholder="Enter Block (1,2,3)">
+</div>
+
+</div>
+
+<div class="slot-container">
+
+
+<div class="slot-box">
+
+<h3>Morning Session</h3>
+
+<label><input type="checkbox" class="morningSem" value="1" onchange="syncSessions()"> Sem 1</label>
+<label><input type="checkbox" class="morningSem" value="2" onchange="syncSessions()"> Sem 2</label>
+<label><input type="checkbox" class="morningSem" value="3" onchange="syncSessions()"> Sem 3</label>
+<label><input type="checkbox" class="morningSem" value="4" onchange="syncSessions()"> Sem 4</label>
+<label><input type="checkbox" class="morningSem" value="5" onchange="syncSessions()"> Sem 5</label>
+<label><input type="checkbox" class="morningSem" value="6" onchange="syncSessions()"> Sem 6</label>
+<label><input type="checkbox" class="morningSem" value="7" onchange="syncSessions()"> Sem 7</label>
+<label><input type="checkbox" class="morningSem" value="8" onchange="syncSessions()"> Sem 8</label>
+
 </div>
 
 
+<div class="slot-box">
+
+<h3>Evening Session</h3>
+
+<label><input type="checkbox" class="eveningSem" value="1" onchange="syncSessions()"> Sem 1</label>
+<label><input type="checkbox" class="eveningSem" value="2" onchange="syncSessions()"> Sem 2</label>
+<label><input type="checkbox" class="eveningSem" value="3" onchange="syncSessions()"> Sem 3</label>
+<label><input type="checkbox" class="eveningSem" value="4" onchange="syncSessions()"> Sem 4</label>
+<label><input type="checkbox" class="eveningSem" value="5" onchange="syncSessions()"> Sem 5</label>
+<label><input type="checkbox" class="eveningSem" value="6" onchange="syncSessions()"> Sem 6</label>
+<label><input type="checkbox" class="eveningSem" value="7" onchange="syncSessions()"> Sem 7</label>
+<label><input type="checkbox" class="eveningSem" value="8" onchange="syncSessions()"> Sem 8</label>
+
 </div>
+
+</div>
+<div>
+
+<label>Weekend Rules</label>
+
+<label class="weekend-rule">
+<input type="checkbox" id="skipSunday" checked>
+<span>Skip Sunday</span>
+</label>
+
+<label class="weekend-rule">
+<input type="checkbox" id="skipSaturday">
+<span>Skip Saturday</span>
+</label>
+
+</div>
+
 
 </div>
 

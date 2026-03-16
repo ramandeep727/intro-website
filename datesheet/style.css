@@ -267,4 +267,111 @@ cursor:pointer;
 font-size:11px;
 line-height:16px;
 }
+/* SLOT SELECTION */
 
+.slot-container{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:40px;
+margin-top:15px;
+}
+
+.slot-box{
+background:#f9fafb;
+border:1px solid #e5e7eb;
+border-radius:8px;
+padding:15px;
+}
+
+/* TITLE */
+
+.slot-box h4{
+margin:0 0 10px 0;
+color:#1e40af;
+}
+
+/* SEMESTER CHECKBOX ROW */
+
+.slot-box label{
+display:flex;
+align-items:center;
+gap:8px;
+margin-bottom:8px;
+cursor:pointer;
+}
+
+/* CHECKBOX SIZE */
+
+.slot-box input[type="checkbox"]{
+width:16px;
+height:16px;
+}
+
+/* WEEKEND RULES */
+
+#skipSunday,
+#skipSaturday{
+margin-right:6px;
+}
+
+/* GRID SPACING FIX */
+
+.form-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+.weekend-item{
+display:flex;
+align-items:center;
+gap:8px;
+margin-top:5px;
+cursor:pointer;
+}
+
+.weekend-rule{
+display:flex;
+align-items:center;
+gap:8px;
+margin-top:6px;
+cursor:pointer;
+}
+
+.weekend-rule input{
+width:16px;
+height:16px;
+}
+.slot-box{
+min-height:230px;
+}
+
+html{
+scroll-behavior: smooth;
+}
+
+#result{
+max-height:600px;
+overflow-y:auto;
+scroll-behavior:smooth;
+}
+
+*{
+-webkit-font-smoothing: antialiased;
+transform: translateZ(0);
+}
+
+body{
+scroll-behavior:smooth;
+overflow-y:scroll;
+scrollbar-width:thin;
+}
+
+::-webkit-scrollbar{
+width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+background:#2563eb;
+border-radius:10px;
+}

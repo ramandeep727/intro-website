@@ -294,48 +294,50 @@ return d;
 /* GENERATE DATESHEET */
 
 function generate(){
+
+let block = document.getElementById("blockInput").value || "-";
 examLoad = {};
 
+/* VALIDATION */
 
-if(Object.keys(colleges).length==0 || !startDate.value){
+let startDateInput = document.getElementById("startDate").value;
+
+if(Object.keys(colleges).length === 0 || !startDateInput){
 alert("Add courses and start date");
 return;
 }
 
-let gap = Number(document.getElementById("gap").value);
-let oddSlot = document.getElementById("oddSlot").value;
-let evenSlot = document.getElementById("evenSlot").value;
+let gap = Number(document.getElementById("gap").value) || 1;
 
 /* START DATE */
 
-let start = document.getElementById("startDate").value;
-let parts = start.split("-");
+let parts = startDateInput.split("-");
 let startDateObj = new Date(parts[0], parts[1]-1, parts[2]);
 
-/* EXAM TYPE TIMINGS */
+/* SEM SLOT SETTINGS */
 
-let examType = document.getElementById("examType").value;
+let morningSems = [...document.querySelectorAll(".morningSem:checked")].map(cb => cb.value);
+let eveningSems = [...document.querySelectorAll(".eveningSem:checked")].map(cb => cb.value);
 
-let morningTime;
-let eveningTime;
+/* SLOT TIMINGS */
 
-if(examType === "MST"){
-morningTime = "10:00 AM - 11:30 AM";
-eveningTime = "1:00 PM - 2:30 PM";
+let morningTime = document.getElementById("morningTimeInput").value;
+let eveningTime = document.getElementById("eveningTimeInput").value;
+
+if(!morningTime || !eveningTime){
+alert("Enter slot timings");
+return;
 }
-else{
-morningTime = "9:00 AM - 12:00 PM";
-eveningTime = "2:00 PM - 5:00 PM";
-}
 
-/* BUILD TABLE */
+/* TABLE START */
 
-let html=`<table>
+let html = `<table>
 <tr>
 <th>College</th>
 <th>Course</th>
 <th>Stream</th>
 <th>Semester</th>
+<th>Block</th>
 <th>Status</th>
 <th>Subject Code</th>
 <th>Subject</th>
@@ -343,7 +345,7 @@ let html=`<table>
 <th>Time</th>
 </tr>`;
 
-/* GENERATE DATES PER COURSE */
+/* GENERATE */
 
 for(let col in colleges){
 
@@ -351,32 +353,31 @@ colleges[col].forEach(c=>{
 
 let courseDate = new Date(startDateObj);
 
-/* DETECT SEMESTER TYPE */
+/* SEM NUMBER */
 
 let semNumber = parseInt(c.semester.replace("Sem ",""));
-let semesterType = (semNumber % 2 === 0) ? "even" : "odd";
 
-let slotRule = (semesterType === "even") ? evenSlot : oddSlot;
-
-c.subjects.forEach((s,i)=>{
-
-courseDate = getNextWorkingDate(courseDate);
-
-/* SLOT LOGIC */
+/* SLOT SELECTION */
 
 let timeSlot;
 
-if(slotRule === "morning"){
+if(morningSems.includes(String(semNumber))){
 timeSlot = morningTime;
 }
-else if(slotRule === "evening"){
+else if(eveningSems.includes(String(semNumber))){
 timeSlot = eveningTime;
 }
 else{
-timeSlot = (i % 2 === 0) ? morningTime : eveningTime;
+timeSlot = morningTime;
 }
 
-/* EXAM LOAD COUNT */
+/* SUBJECT LOOP */
+
+c.subjects.forEach((s)=>{
+
+courseDate = getNextWorkingDate(courseDate);
+
+/* EXAM LOAD */
 
 let dateKey = courseDate.toDateString();
 
@@ -390,24 +391,22 @@ examLoad[dateKey].morning++;
 examLoad[dateKey].evening++;
 }
 
-
 /* TABLE ROW */
 
 html += `<tr>
-
 <td>${col}</td>
 <td>${c.course}</td>
 <td>${c.stream}</td>
 <td>${c.semester}</td>
+<td>${block}</td>
 <td>${s.status || "Regular"}</td>
 <td>${s.code}</td>
 <td>${s.name}</td>
 <td>${courseDate.toDateString()}</td>
 <td>${timeSlot}</td>
-
 </tr>`;
 
-/* MOVE DATE */
+/* NEXT DATE */
 
 courseDate.setDate(courseDate.getDate() + gap);
 
@@ -435,50 +434,154 @@ return;
 
 const { jsPDF } = window.jspdf;
 
-const doc = new jsPDF();
+const doc = new jsPDF("l"); // landscape for better spacing
 
 let y = 15;
 
 /* HEADER */
 
 doc.setFontSize(18);
-doc.text("CGC UNIVERSITY",105,y,{align:"center"});
+doc.text("CGC UNIVERSITY",148,y,{align:"center"});
 y+=8;
 
 doc.setFontSize(12);
-doc.text("Office of Controller of Examination",105,y,{align:"center"});
+doc.text("Office of Controller of Examination",148,y,{align:"center"});
 y+=8;
 
 let examType = document.getElementById("examType").value;
 
-doc.text(examType + " Examination Date Sheet",105,y,{align:"center"});
-y += 8;
+doc.text(examType + " Examination Date Sheet",148,y,{align:"center"});
+y += 10;
 
 let year = new Date(document.getElementById("startDate").value).getFullYear();
 doc.setFontSize(11);
 doc.text("Session: "+year,14,y);
 
-y+=10;
+y+=5;
 
-/* TABLE */
 
-doc.autoTable({
-html: table,
-startY: y,
-styles:{fontSize:9},
-headStyles:{fillColor:[37,99,235]}
+/* FORMAT TABLE DATA */
+
+let rows = [];
+
+document.querySelectorAll("#result table tr").forEach((tr,i)=>{
+
+if(i===0) return;
+
+let tds = tr.querySelectorAll("td");
+
+let date = new Date(tds[8].innerText);
+
+let formattedDate = date.toLocaleDateString("en-GB",{
+day:"2-digit",
+month:"short",
+year:"numeric"
 });
 
-/* SIGNATURE */
+let day = date.toLocaleDateString("en-GB",{weekday:"long"});
 
-let finalY = doc.lastAutoTable.finalY + 20;
+let time = tds[9].innerText.replace("-", "\nto\n");
 
-doc.text("Controller of Examination",150,finalY);
+rows.push([
+tds[0].innerText,
+tds[1].innerText,
+tds[2].innerText,
+tds[3].innerText,
+tds[4].innerText,
+tds[5].innerText,
+tds[6].innerText,
+tds[7].innerText,
+formattedDate,
+time
+]);
+
+});
+
+
+doc.autoTable({
+
+startY: y,
+
+head: [[
+"College",
+"Course",
+"Stream",
+"Sem",
+"Block",
+"Status",
+"Code",
+"Subject",
+"Date",
+"Time"
+]],
+
+body: rows,
+
+styles:{
+fontSize:9,
+cellPadding:3,
+valign:"middle",
+halign:"center"
+},
+
+tableWidth:"auto",
+
+columnStyles:{
+0:{cellWidth:18}, // College
+1:{cellWidth:18}, // Course
+2:{cellWidth:40}, // Stream
+3:{cellWidth:18}, // Semester (more space)
+4:{cellWidth:16}, // Block
+5:{cellWidth:24}, // Status (more space)
+6:{cellWidth:26}, // Code
+7:{cellWidth:50}, // Subject
+8:{cellWidth:26}, // Date
+9:{cellWidth:32}  // Time (more space)
+},
+
+headStyles:{
+fillColor:[37,99,235],
+textColor:255,
+fontStyle:"bold"
+},
+
+margin:{left:8,right:8}
+
+});
+
+/* FOOTER */
+
+/* FOOTER */
+
+let pageCount = doc.internal.getNumberOfPages();
+
+for(let i=1;i<=pageCount;i++){
+
+doc.setPage(i);
+
+doc.setFontSize(9);
+
+doc.text(
+"Page "+i+" of "+pageCount,
+250,
+200
+);
+
+}
+
+let finalY = doc.lastAutoTable.finalY + 15;
+
+doc.setFontSize(10);
+
+doc.text(
+"Controller of Examination",
+doc.internal.pageSize.getWidth() - 70,
+finalY
+);
 
 doc.save("CGC_DateSheet.pdf");
 
 }
-
 /* EXPORT EXCEL */
 
 function exportExcel(){
@@ -641,5 +744,39 @@ Evening : ${examLoad[d].evening} exams
 
 panel.innerHTML = html;
 panel.style.display = "block";
+
+}
+function syncSessions(){
+
+let morning = document.querySelectorAll(".morningSem");
+let evening = document.querySelectorAll(".eveningSem");
+
+/* MORNING → DISABLE EVENING */
+
+morning.forEach(m=>{
+let sem = m.value;
+
+let e = document.querySelector(`.eveningSem[value="${sem}"]`);
+
+if(m.checked){
+e.disabled = true;
+}else{
+e.disabled = false;
+}
+});
+
+/* EVENING → DISABLE MORNING */
+
+evening.forEach(e=>{
+let sem = e.value;
+
+let m = document.querySelector(`.morningSem[value="${sem}"]`);
+
+if(e.checked){
+m.disabled = true;
+}else{
+m.disabled = false;
+}
+});
 
 }
