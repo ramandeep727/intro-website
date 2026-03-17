@@ -390,20 +390,21 @@ timeSlot = morningTime;
 c.subjects.forEach((s)=>{
 
 let subjectKey = s.code;
-
-if(subjectDateMap[subjectKey]){
-
-/* SAME SUBJECT CODE → SAME DATE */
-
-courseDate = new Date(subjectDateMap[subjectKey]);
-
-}else{
-
 let classKey = col + "_" + c.course + "_" + c.stream + "_" + c.semester;
+
+/* initialize class storage */
 
 if(!classExamDates[classKey]){
 classExamDates[classKey] = [];
 }
+
+/* if subject already has a scheduled date */
+
+if(subjectDateMap[subjectKey]){
+courseDate = new Date(subjectDateMap[subjectKey]);
+}
+
+/* find a valid date */
 
 while(true){
 
@@ -411,29 +412,27 @@ courseDate = getNextWorkingDate(courseDate);
 
 let dateStr = courseDate.toDateString();
 
-/* PREVENT SAME CLASS EXAM CLASH */
+/* prevent same class exam clash */
 
 if(classExamDates[classKey].includes(dateStr)){
 courseDate.setDate(courseDate.getDate()+1);
 continue;
 }
 
-/* OPTIONAL LOAD CONTROL */
-
-let dateKey = dateStr;
+/* optional load control */
 
 if(enableLoadControl){
 
-if(!examLoad[dateKey]){
-examLoad[dateKey] = {morning:0, evening:0};
+if(!examLoad[dateStr]){
+examLoad[dateStr] = {morning:0, evening:0};
 }
 
-if(timeSlot === morningTime && examLoad[dateKey].morning >= maxMorningLoad){
+if(timeSlot === morningTime && examLoad[dateStr].morning >= maxMorningLoad){
 courseDate.setDate(courseDate.getDate()+1);
 continue;
 }
 
-if(timeSlot === eveningTime && examLoad[dateKey].evening >= maxEveningLoad){
+if(timeSlot === eveningTime && examLoad[dateStr].evening >= maxEveningLoad){
 courseDate.setDate(courseDate.getDate()+1);
 continue;
 }
@@ -444,17 +443,12 @@ break;
 
 }
 
-/* SAVE CLASS EXAM DATE */
+/* save dates */
 
 classExamDates[classKey].push(courseDate.toDateString());
-
-/* SAVE SUBJECT DATE */
-
 subjectDateMap[subjectKey] = new Date(courseDate);
 
-}
-
-/* EXAM LOAD UPDATE */
+/* exam load update */
 
 let dateKey = courseDate.toDateString();
 
@@ -468,7 +462,7 @@ examLoad[dateKey].morning++;
 examLoad[dateKey].evening++;
 }
 
-/* TABLE ROW */
+/* table row */
 
 html += `<tr>
 <td>${col}</td>
@@ -483,7 +477,7 @@ html += `<tr>
 <td>${timeSlot}</td>
 </tr>`;
 
-/* NEXT DATE */
+/* next date */
 
 courseDate.setDate(courseDate.getDate() + gap + 1);
 
