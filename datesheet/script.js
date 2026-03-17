@@ -1,15 +1,6 @@
 const SHEET_ID = "1kWJoIXDPWUjw4NCgKolCCtHdfPuyc_hUA8np7pejCDg";
 const SHEET_URL = `https://opensheet.elk.sh/${SHEET_ID}/Sheet1`;
 
-let enableLoadControl =
-document.getElementById("enableLoadControl").checked;
-
-let maxMorningLoad =
-Number(document.getElementById("maxMorningLoad").value) || 999;
-
-let maxEveningLoad =
-Number(document.getElementById("maxEveningLoad").value) || 999;
-
 let sheetData = [];
 
 let examLoad = {};
@@ -304,6 +295,15 @@ return d;
 let subjectDateMap = {};
 
 function generate(){
+let enableLoadControl =
+document.getElementById("enableLoadControl").checked;
+
+let maxMorningLoad =
+Number(document.getElementById("maxMorningLoad").value) || 999;
+
+let maxEveningLoad =
+Number(document.getElementById("maxEveningLoad").value) || 999;
+
 
 
 subjectDateMap = {};
@@ -393,13 +393,11 @@ let subjectKey = s.code;
 
 if(subjectDateMap[subjectKey]){
 
+/* SAME SUBJECT CODE → SAME DATE */
+
 courseDate = new Date(subjectDateMap[subjectKey]);
 
 }else{
-
-if(enableLoadControl){
-
-while(true){
 
 let classKey = col + "_" + c.course + "_" + c.stream + "_" + c.semester;
 
@@ -413,50 +411,50 @@ courseDate = getNextWorkingDate(courseDate);
 
 let dateStr = courseDate.toDateString();
 
-if(!classExamDates[classKey].includes(dateStr)){
-break;
-}
+/* PREVENT SAME CLASS EXAM CLASH */
 
+if(classExamDates[classKey].includes(dateStr)){
 courseDate.setDate(courseDate.getDate()+1);
-
+continue;
 }
 
-classExamDates[classKey].push(courseDate.toDateString());
+/* OPTIONAL LOAD CONTROL */
 
-let dateKey = courseDate.toDateString();
+let dateKey = dateStr;
+
+if(enableLoadControl){
 
 if(!examLoad[dateKey]){
 examLoad[dateKey] = {morning:0, evening:0};
 }
 
-if(timeSlot === morningTime){
-
-if(examLoad[dateKey].morning < maxMorningLoad){
-break;
-}
-
-}else{
-
-if(examLoad[dateKey].evening < maxEveningLoad){
-break;
-}
-
-}
-
+if(timeSlot === morningTime && examLoad[dateKey].morning >= maxMorningLoad){
 courseDate.setDate(courseDate.getDate()+1);
+continue;
+}
+
+if(timeSlot === eveningTime && examLoad[dateKey].evening >= maxEveningLoad){
+courseDate.setDate(courseDate.getDate()+1);
+continue;
+}
 
 }
 
-}else{
-
-courseDate = getNextWorkingDate(courseDate);
+break;
 
 }
+
+/* SAVE CLASS EXAM DATE */
+
+classExamDates[classKey].push(courseDate.toDateString());
+
+/* SAVE SUBJECT DATE */
+
 subjectDateMap[subjectKey] = new Date(courseDate);
 
 }
 
-/* EXAM LOAD */
+/* EXAM LOAD UPDATE */
 
 let dateKey = courseDate.toDateString();
 
