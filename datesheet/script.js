@@ -1,6 +1,15 @@
 const SHEET_ID = "1kWJoIXDPWUjw4NCgKolCCtHdfPuyc_hUA8np7pejCDg";
 const SHEET_URL = `https://opensheet.elk.sh/${SHEET_ID}/Sheet1`;
 
+let enableLoadControl =
+document.getElementById("enableLoadControl").checked;
+
+let maxMorningLoad =
+Number(document.getElementById("maxMorningLoad").value) || 999;
+
+let maxEveningLoad =
+Number(document.getElementById("maxEveningLoad").value) || 999;
+
 let sheetData = [];
 
 let examLoad = {};
@@ -295,10 +304,13 @@ return d;
 let subjectDateMap = {};
 
 function generate(){
+
+
 subjectDateMap = {};
 
 let block = document.getElementById("blockInput").value || "-";
 examLoad = {};
+let classExamDates = {};
 
 /* VALIDATION */
 
@@ -385,7 +397,61 @@ courseDate = new Date(subjectDateMap[subjectKey]);
 
 }else{
 
+if(enableLoadControl){
+
+while(true){
+
+let classKey = col + "_" + c.course + "_" + c.stream + "_" + c.semester;
+
+if(!classExamDates[classKey]){
+classExamDates[classKey] = [];
+}
+
+while(true){
+
 courseDate = getNextWorkingDate(courseDate);
+
+let dateStr = courseDate.toDateString();
+
+if(!classExamDates[classKey].includes(dateStr)){
+break;
+}
+
+courseDate.setDate(courseDate.getDate()+1);
+
+}
+
+classExamDates[classKey].push(courseDate.toDateString());
+
+let dateKey = courseDate.toDateString();
+
+if(!examLoad[dateKey]){
+examLoad[dateKey] = {morning:0, evening:0};
+}
+
+if(timeSlot === morningTime){
+
+if(examLoad[dateKey].morning < maxMorningLoad){
+break;
+}
+
+}else{
+
+if(examLoad[dateKey].evening < maxEveningLoad){
+break;
+}
+
+}
+
+courseDate.setDate(courseDate.getDate()+1);
+
+}
+
+}else{
+
+courseDate = getNextWorkingDate(courseDate);
+
+}
 subjectDateMap[subjectKey] = new Date(courseDate);
 
 }

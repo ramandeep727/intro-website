@@ -251,6 +251,32 @@ if(localStorage.getItem("system") === "OFF"){
 
 <div class="section">
 
+<h3>Exam Load Control (Optional)</h3>
+
+<label class="weekend-rule">
+<input type="checkbox" id="enableLoadControl">
+<span>Enable Load Control</span>
+
+</label>
+
+<div class="form-grid">
+
+<div>
+<label>Max Morning Exams Per Day</label>
+<input type="number" id="maxMorningLoad" placeholder="Example: 10">
+</div>
+
+<div>
+<label>Max Evening Exams Per Day</label>
+<input type="number" id="maxEveningLoad" placeholder="Example: 10">
+</div>
+
+</div>
+
+</div>
+
+<div class="section">
+
 <h3>Generate DateSheet</h3>
 
 <button onclick="generate()">Generate DateSheet</button>
