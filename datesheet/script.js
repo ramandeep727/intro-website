@@ -292,8 +292,10 @@ return d;
 /* GENERATE DATESHEET */
 
 /* GENERATE DATESHEET */
+let subjectDateMap = {};
 
 function generate(){
+subjectDateMap = {};
 
 let block = document.getElementById("blockInput").value || "-";
 examLoad = {};
@@ -375,7 +377,18 @@ timeSlot = morningTime;
 
 c.subjects.forEach((s)=>{
 
+let subjectKey = s.code;
+
+if(subjectDateMap[subjectKey]){
+
+courseDate = new Date(subjectDateMap[subjectKey]);
+
+}else{
+
 courseDate = getNextWorkingDate(courseDate);
+subjectDateMap[subjectKey] = new Date(courseDate);
+
+}
 
 /* EXAM LOAD */
 
@@ -408,7 +421,7 @@ html += `<tr>
 
 /* NEXT DATE */
 
-courseDate.setDate(courseDate.getDate() + gap);
+courseDate.setDate(courseDate.getDate() + gap + 1);
 
 });
 
@@ -593,13 +606,27 @@ alert("Generate first");
 return;
 }
 
-let html = table.outerHTML.replace(/ /g,"%20");
+let rows = [];
 
-let link = document.createElement("a");
+document.querySelectorAll("#result table tr").forEach((tr,i)=>{
 
-link.href="data:application/vnd.ms-excel,"+html;
-link.download="datesheet.xls";
-link.click();
+let cols = tr.querySelectorAll("th,td");
+let row=[];
+
+cols.forEach(td=>{
+row.push(td.innerText);
+});
+
+rows.push(row);
+
+});
+
+let worksheet = XLSX.utils.aoa_to_sheet(rows);
+let workbook = XLSX.utils.book_new();
+
+XLSX.utils.book_append_sheet(workbook,worksheet,"DateSheet");
+
+XLSX.writeFile(workbook,"CGC_DateSheet.xlsx");
 
 }
 
