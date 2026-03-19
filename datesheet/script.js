@@ -397,28 +397,54 @@ timeSlot = morningTime;
 c.subjects.forEach((s)=>{
 
     let subjectKey = s.code;
-    
 
     /* initialize class storage */
     if(!classExamDates[classKey]){
         classExamDates[classKey] = [];
     }
 
-    /* FORCE SAME SUBJECT DATE */
+    /* ===============================
+       SAME SUBJECT HANDLING
+    =============================== */
 
     if(subjectDateMap[subjectKey]){
-        
-        // ✅ Already assigned → reuse same date
-        courseDate = new Date(subjectDateMap[subjectKey]);
+
+        let fixedDate = new Date(subjectDateMap[subjectKey]);
+        let dateStr = fixedDate.toDateString();
+
+        /* 🚨 check clash in same class */
+
+        if(classExamDates[classKey].includes(dateStr)){
+
+            // shift ONLY for this class
+            let tempDate = new Date(fixedDate);
+
+            while(true){
+                tempDate.setDate(tempDate.getDate()+1);
+                tempDate = getNextWorkingDate(tempDate);
+
+                let tempStr = tempDate.toDateString();
+
+                if(!classExamDates[classKey].includes(tempStr)){
+                    courseDate = tempDate;
+                    break;
+                }
+            }
+
+        } else {
+            courseDate = fixedDate;
+        }
 
     } else {
 
-        // ✅ First time → calculate date
+        /* ===============================
+           FIRST TIME SUBJECT
+        =============================== */
 
         while(true){
 
-            courseDate = getNextWorkingDate(courseDate);
-            let dateStr = courseDate.toDateString();
+            let tempDate = getNextWorkingDate(new Date(courseDate));
+            let dateStr = tempDate.toDateString();
 
             /* prevent same class exam clash */
             if(classExamDates[classKey].includes(dateStr)){
@@ -445,17 +471,20 @@ c.subjects.forEach((s)=>{
 
             }
 
+            courseDate = tempDate;
             break;
         }
 
-        // ✅ LOCK SUBJECT DATE GLOBALLY
+        // ✅ lock globally
         subjectDateMap[subjectKey] = new Date(courseDate);
     }
 
-    /* save class date */
+    /* ===============================
+       SAVE + LOAD UPDATE
+    =============================== */
+
     classExamDates[classKey].push(courseDate.toDateString());
 
-    /* exam load update */
     let dateKey = courseDate.toDateString();
 
     if(!examLoad[dateKey]){
@@ -468,7 +497,10 @@ c.subjects.forEach((s)=>{
         examLoad[dateKey].evening++;
     }
 
-    /* table row */
+    /* ===============================
+       TABLE OUTPUT
+    =============================== */
+
     html += `<tr>
     <td>${col}</td>
     <td>${c.course}</td>
@@ -482,9 +514,12 @@ c.subjects.forEach((s)=>{
     <td>${timeSlot}</td>
     </tr>`;
 
-    /* move to next date */
+    /* ===============================
+       MOVE FOR NEXT SUBJECT
+    =============================== */
+
     courseDate.setDate(courseDate.getDate() + gap + 1);
-classStartDateMap[classKey] = new Date(courseDate);
+    classStartDateMap[classKey] = new Date(courseDate);
 
 });
 
