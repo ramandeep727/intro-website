@@ -311,6 +311,7 @@ subjectDateMap = {};
 let block = document.getElementById("blockInput").value || "-";
 examLoad = {};
 let classExamDates = {};
+let classStartDateMap = {};
 
 /* VALIDATION */
 
@@ -365,7 +366,13 @@ for(let col in colleges){
 
 colleges[col].forEach(c=>{
 
-let courseDate = new Date(startDateObj);
+    let classKey = col + "_" + c.course + "_" + c.stream + "_" + c.semester;
+
+    if(!classStartDateMap[classKey]){
+        classStartDateMap[classKey] = new Date(startDateObj);
+    }
+
+    let courseDate = new Date(classStartDateMap[classKey]);
 
 /* SEM NUMBER */
 
@@ -389,97 +396,95 @@ timeSlot = morningTime;
 
 c.subjects.forEach((s)=>{
 
-let subjectKey = s.code;
-let classKey = col + "_" + c.course + "_" + c.stream + "_" + c.semester;
+    let subjectKey = s.code;
+    
 
-/* initialize class storage */
+    /* initialize class storage */
+    if(!classExamDates[classKey]){
+        classExamDates[classKey] = [];
+    }
 
-if(!classExamDates[classKey]){
-classExamDates[classKey] = [];
-}
+    /* FORCE SAME SUBJECT DATE */
 
-/* if subject already has a scheduled date */
+    if(subjectDateMap[subjectKey]){
+        
+        // ✅ Already assigned → reuse same date
+        courseDate = new Date(subjectDateMap[subjectKey]);
 
-if(subjectDateMap[subjectKey]){
-courseDate = new Date(subjectDateMap[subjectKey]);
-}
+    } else {
 
-/* find a valid date */
+        // ✅ First time → calculate date
 
-while(true){
+        while(true){
 
-courseDate = getNextWorkingDate(courseDate);
+            courseDate = getNextWorkingDate(courseDate);
+            let dateStr = courseDate.toDateString();
 
-let dateStr = courseDate.toDateString();
+            /* prevent same class exam clash */
+            if(classExamDates[classKey].includes(dateStr)){
+                courseDate.setDate(courseDate.getDate()+1);
+                continue;
+            }
 
-/* prevent same class exam clash */
+            /* optional load control */
+            if(enableLoadControl){
 
-if(classExamDates[classKey].includes(dateStr)){
-courseDate.setDate(courseDate.getDate()+1);
-continue;
-}
+                if(!examLoad[dateStr]){
+                    examLoad[dateStr] = {morning:0, evening:0};
+                }
 
-/* optional load control */
+                if(timeSlot === morningTime && examLoad[dateStr].morning >= maxMorningLoad){
+                    courseDate.setDate(courseDate.getDate()+1);
+                    continue;
+                }
 
-if(enableLoadControl){
+                if(timeSlot === eveningTime && examLoad[dateStr].evening >= maxEveningLoad){
+                    courseDate.setDate(courseDate.getDate()+1);
+                    continue;
+                }
 
-if(!examLoad[dateStr]){
-examLoad[dateStr] = {morning:0, evening:0};
-}
+            }
 
-if(timeSlot === morningTime && examLoad[dateStr].morning >= maxMorningLoad){
-courseDate.setDate(courseDate.getDate()+1);
-continue;
-}
+            break;
+        }
 
-if(timeSlot === eveningTime && examLoad[dateStr].evening >= maxEveningLoad){
-courseDate.setDate(courseDate.getDate()+1);
-continue;
-}
+        // ✅ LOCK SUBJECT DATE GLOBALLY
+        subjectDateMap[subjectKey] = new Date(courseDate);
+    }
 
-}
+    /* save class date */
+    classExamDates[classKey].push(courseDate.toDateString());
 
-break;
+    /* exam load update */
+    let dateKey = courseDate.toDateString();
 
-}
+    if(!examLoad[dateKey]){
+        examLoad[dateKey] = {morning:0, evening:0};
+    }
 
-/* save dates */
+    if(timeSlot === morningTime){
+        examLoad[dateKey].morning++;
+    } else {
+        examLoad[dateKey].evening++;
+    }
 
-classExamDates[classKey].push(courseDate.toDateString());
-subjectDateMap[subjectKey] = new Date(courseDate);
+    /* table row */
+    html += `<tr>
+    <td>${col}</td>
+    <td>${c.course}</td>
+    <td>${c.stream}</td>
+    <td>${c.semester}</td>
+    <td>${block}</td>
+    <td>${s.status || "Regular"}</td>
+    <td>${s.code}</td>
+    <td>${s.name}</td>
+    <td>${courseDate.toDateString()}</td>
+    <td>${timeSlot}</td>
+    </tr>`;
 
-/* exam load update */
-
-let dateKey = courseDate.toDateString();
-
-if(!examLoad[dateKey]){
-examLoad[dateKey] = {morning:0, evening:0};
-}
-
-if(timeSlot === morningTime){
-examLoad[dateKey].morning++;
-}else{
-examLoad[dateKey].evening++;
-}
-
-/* table row */
-
-html += `<tr>
-<td>${col}</td>
-<td>${c.course}</td>
-<td>${c.stream}</td>
-<td>${c.semester}</td>
-<td>${block}</td>
-<td>${s.status || "Regular"}</td>
-<td>${s.code}</td>
-<td>${s.name}</td>
-<td>${courseDate.toDateString()}</td>
-<td>${timeSlot}</td>
-</tr>`;
-
-/* next date */
-
-courseDate.setDate(courseDate.getDate() + gap + 1);
+    /* move to next date */
+    courseDate.setDate(courseDate.getDate() + gap + 1);
+classStartDateMap[classKey] = new Date(courseDate);
 
 });
 
