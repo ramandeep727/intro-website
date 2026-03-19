@@ -397,62 +397,45 @@ timeSlot = morningTime;
 c.subjects.forEach((s)=>{
 
     let subjectKey = s.code;
+    let classKey = col + "_" + c.course + "_" + c.stream + "_" + c.semester;
 
-    /* initialize class storage */
     if(!classExamDates[classKey]){
         classExamDates[classKey] = [];
     }
 
+    let assignedDate;
+
     /* ===============================
-       SAME SUBJECT HANDLING
+       SAME SUBJECT (GLOBAL LOCK)
     =============================== */
 
     if(subjectDateMap[subjectKey]){
 
-        let fixedDate = new Date(subjectDateMap[subjectKey]);
-        let dateStr = fixedDate.toDateString();
+        // ✅ ALWAYS reuse same date
+        assignedDate = new Date(subjectDateMap[subjectKey]);
 
-        /* 🚨 check clash in same class */
+    }
 
-        if(classExamDates[classKey].includes(dateStr)){
+    /* ===============================
+       FIRST TIME SUBJECT
+    =============================== */
 
-            // shift ONLY for this class
-            let tempDate = new Date(fixedDate);
+    else{
 
-            while(true){
-                tempDate.setDate(tempDate.getDate()+1);
-                tempDate = getNextWorkingDate(tempDate);
-
-                let tempStr = tempDate.toDateString();
-
-                if(!classExamDates[classKey].includes(tempStr)){
-                    courseDate = tempDate;
-                    break;
-                }
-            }
-
-        } else {
-            courseDate = fixedDate;
-        }
-
-    } else {
-
-        /* ===============================
-           FIRST TIME SUBJECT
-        =============================== */
+        assignedDate = new Date(courseDate);
 
         while(true){
 
-            let tempDate = getNextWorkingDate(new Date(courseDate));
-            let dateStr = tempDate.toDateString();
+            assignedDate = getNextWorkingDate(assignedDate);
+            let dateStr = assignedDate.toDateString();
 
-            /* prevent same class exam clash */
+            // ❌ same class clash
             if(classExamDates[classKey].includes(dateStr)){
-                courseDate.setDate(courseDate.getDate()+1);
+                assignedDate.setDate(assignedDate.getDate() + 1);
                 continue;
             }
 
-            /* optional load control */
+            // ❌ load control
             if(enableLoadControl){
 
                 if(!examLoad[dateStr]){
@@ -460,41 +443,39 @@ c.subjects.forEach((s)=>{
                 }
 
                 if(timeSlot === morningTime && examLoad[dateStr].morning >= maxMorningLoad){
-                    courseDate.setDate(courseDate.getDate()+1);
+                    assignedDate.setDate(assignedDate.getDate() + 1);
                     continue;
                 }
 
                 if(timeSlot === eveningTime && examLoad[dateStr].evening >= maxEveningLoad){
-                    courseDate.setDate(courseDate.getDate()+1);
+                    assignedDate.setDate(assignedDate.getDate() + 1);
                     continue;
                 }
-
             }
 
-            courseDate = tempDate;
             break;
         }
 
         // ✅ lock globally
-        subjectDateMap[subjectKey] = new Date(courseDate);
+        subjectDateMap[subjectKey] = new Date(assignedDate);
     }
 
     /* ===============================
-       SAVE + LOAD UPDATE
+       FINAL SAVE
     =============================== */
 
-    classExamDates[classKey].push(courseDate.toDateString());
+    let finalStr = assignedDate.toDateString();
 
-    let dateKey = courseDate.toDateString();
+    classExamDates[classKey].push(finalStr);
 
-    if(!examLoad[dateKey]){
-        examLoad[dateKey] = {morning:0, evening:0};
+    if(!examLoad[finalStr]){
+        examLoad[finalStr] = {morning:0, evening:0};
     }
 
     if(timeSlot === morningTime){
-        examLoad[dateKey].morning++;
+        examLoad[finalStr].morning++;
     } else {
-        examLoad[dateKey].evening++;
+        examLoad[finalStr].evening++;
     }
 
     /* ===============================
@@ -510,15 +491,17 @@ c.subjects.forEach((s)=>{
     <td>${s.status || "Regular"}</td>
     <td>${s.code}</td>
     <td>${s.name}</td>
-    <td>${courseDate.toDateString()}</td>
+    <td>${assignedDate.toDateString()}</td>
     <td>${timeSlot}</td>
     </tr>`;
 
     /* ===============================
-       MOVE FOR NEXT SUBJECT
+       GAP FIX (CORRECT)
     =============================== */
 
-    courseDate.setDate(courseDate.getDate() + gap + 1);
+    courseDate = new Date(assignedDate);
+    courseDate.setDate(courseDate.getDate() + Number(gap));
+
     classStartDateMap[classKey] = new Date(courseDate);
 
 });
