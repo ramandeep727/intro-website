@@ -1,1 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker Pro</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+<div class="container">
+  <h2>💰 Expense Tracker</h2>
+
+  <div class="top-bar">
+    <button id="toggleTheme">🌙</button>
+    <button id="exportBtn">📥 Export</button>
+  </div>
+  <div class="balance-card">
+  <h3>Total Balance</h3>
+  <h1 id="totalBalance">₹0</h1>
+</div>
+ 
+
+  <div class="form">
+    <input type="date" id="date">
+    <input type="number" id="credit" placeholder="Credit">
+    <input type="number" id="debit" placeholder="Debit">
+    <input type="text" id="reason" placeholder="Reason">
+    <button id="addBtn">➕ Add Entry</button>
+  </div>
+
+  <input type="text" id="search" placeholder="🔍 Search...">
+
+
+
+  <div class="dashboard">
+
+  <!-- LEFT: Chart -->
+  <div class="chart-card">
+    <canvas id="chart"></canvas>
+  </div>
+
+  <!-- RIGHT: Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Credit</th>
+        <th>Debit</th>
+        <th>Reason</th>
+        <th>Balance</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+  </table>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
