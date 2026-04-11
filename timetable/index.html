@@ -1,1 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<meta charset="UTF-8">
+<title>Smart Timetable Generator</title>
 
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+</head>
+
+<body>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<h2>📚 School ERP</h2>
+
+<ul>
+<li>🏠 Dashboard</li>
+<li>📅 Timetable Generator</li>
+<li>👨‍🏫 Teachers</li>
+<li>🏫 Classes</li>
+<li>⚙ Settings</li>
+</ul>
+
+</div>
+
+<!-- MAIN CONTENT -->
+
+<div class="main">
+
+<div class="header">
+
+<h1>Smart Timetable Generator</h1>
+
+<button onclick="toggleDarkMode()">🌙 Dark Mode</button>
+
+</div>
+
+<div class="stats">
+
+<div class="stat-card">
+<h3 id="classCount">0</h3>
+<p>Classes</p>
+</div>
+
+<div class="stat-card">
+<h3 id="teacherCount">0</h3>
+<p>Teachers</p>
+</div>
+
+<div class="stat-card">
+<h3 id="subjectCount">0</h3>
+<p>Subjects</p>
+</div>
+
+<div class="stat-card">
+<h3 id="periodCount">0</h3>
+<p>Total Periods</p>
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>Generate Timetable</h3>
+
+<label>Classes</label>
+<input id="classes" placeholder="6A,6B,7A">
+
+<label>Subjects with weekly periods</label>
+<input id="subjects" placeholder="Maths-7,English-6,Science-5,SST-4">
+
+<label>Teachers per subject</label>
+<input id="teachers" placeholder="Maths-2,English-2,Science-1,SST-1">
+
+<label>Days per week</label>
+<input id="days" type="number" value="5">
+
+<label>Periods per day</label>
+<input id="periods" type="number" value="6">
+
+<label>Lunch period number</label>
+<input id="lunch" type="number" value="4">
+
+<label>Teacher max periods/day</label>
+<input id="teacherLimit" type="number" value="4">
+
+<h3>Upload Excel Data</h3>
+
+<label>Teachers Excel</label>
+<input type="file" id="teacherExcel">
+
+<label>Subjects Excel</label>
+<input type="file" id="subjectExcel">
+
+<button onclick="loadExcel()">Load Data</button>
+
+<button onclick="generateTimetable()">Generate Timetable</button>
+
+</div>
+
+<div class="card">
+
+<h3>Generated Timetable</h3>
+
+<input id="classSearch" placeholder="Search class timetable..." onkeyup="filterClass()">
+<div id="output"></div>
+
+<div class="actions">
+
+<button onclick="printPage()">🖨 Print</button>
+<button onclick="exportPDF()">📄 Export PDF</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
