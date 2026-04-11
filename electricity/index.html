@@ -1,1 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Electricity Bill Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
 
+<div class="container">
+
+    <h1>⚡ Electricity Bill Generator</h1>
+
+    <div class="form">
+        <input type="text" id="name" placeholder="Customer Name">
+        <input type="number" id="units" placeholder="Units Consumed">
+
+        <h3>Rates (₹ per unit)</h3>
+        <input type="number" id="rate1" placeholder="First 100 units">
+        <input type="number" id="rate2" placeholder="101–300 units">
+        <input type="number" id="rate3" placeholder="Above 300 units">
+
+        <input type="number" id="fixed" placeholder="Fixed Charges">
+        <input type="number" id="gst" placeholder="GST (%)">
+
+        <button onclick="generateBill()">Generate Bill</button>
+    </div>
+
+   <div id="bill" class="bill"></div>
+
+<button onclick="printBill()">🖨️ Print Bill</button>
+<button onclick="downloadPDF()">📄 Download PDF</button>
+
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
