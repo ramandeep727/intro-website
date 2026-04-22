@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prestige Estates — Admin Panel</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="admin.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='16' fill='%23c8a45e'/%3E%3Ctext x='50' y='68' font-size='58' font-family='serif' font-weight='bold' text-anchor='middle' fill='%230a0a0f'%3EP%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+
+  <!-- Login Section -->
+  <section class="admin-login" id="loginSection">
+    <div class="login-card">
+      <div class="nav-logo" style="justify-content: center; margin-bottom: 2rem;">
+        <div class="nav-logo-icon">P</div>
+        <div class="nav-logo-text">Prestige <span>Admin</span></div>
+      </div>
+      <h2 style="text-align: center; margin-bottom: 1.5rem;">Owner Login</h2>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" required>
+        </div>
+        <div id="loginError" class="error-msg"></div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Dashboard Section -->
+  <section class="admin-dashboard" id="dashboardSection" style="display: none;">
+    
+    <nav class="navbar" style="position: relative; background: rgba(10, 10, 15, 0.95);">
+      <div class="container">
+        <a href="#" class="nav-logo">
+          <div class="nav-logo-icon">P</div>
+          <div class="nav-logo-text">Prestige <span>Admin Dashboard</span></div>
+        </a>
+        <div class="nav-actions">
+          <button id="logoutBtn" class="btn btn-outline">Logout</button>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container" style="padding: 3rem 0;">
+      <div class="admin-header">
+        <h2>Manage Properties</h2>
+        <button id="addPropertyBtn" class="btn btn-primary">+ Add New Property</button>
+      </div>
+
+      <div class="admin-properties-list">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Title</th>
+              <th>Location</th>
+              <th>Price</th>
+              <th>Type</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="adminPropertiesTable">
+            <!-- Properties will be dynamically populated here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Property Modal (Add/Edit) -->
+  <div id="propertyModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" id="closeModal">&times;</span>
+      <h2 id="modalTitle">Add Property</h2>
+      <form id="propertyForm" enctype="multipart/form-data">
+        <input type="hidden" id="propId">
+        
+        <div class="form-group">
+          <label for="propTitle">Title</label>
+          <input type="text" id="propTitle" required>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="propPrice">Price (e.g. ₹4.5 Cr or ₹85,000 /month)</label>
+            <input type="text" id="propPrice" required>
+          </div>
+          <div class="form-group">
+            <label for="propType">Type</label>
+            <select id="propType" required>
+              <option value="sale">For Sale</option>
+              <option value="rent">For Rent</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="propLocation">Location</label>
+          <input type="text" id="propLocation" required>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="propBeds">Beds</label>
+            <input type="number" id="propBeds" required>
+          </div>
+          <div class="form-group">
+            <label for="propBaths">Baths</label>
+            <input type="number" id="propBaths" required>
+          </div>
+          <div class="form-group">
+            <label for="propSqft">Sqft (e.g. 3,200)</label>
+            <input type="text" id="propSqft" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="propImage">Image Upload</label>
+          <input type="file" id="propImage" accept="image/*">
+          <small>Leave empty to keep existing image (if editing).</small>
+          <div id="currentImagePreview" style="margin-top: 10px;"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Save Property</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>
