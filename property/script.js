@@ -1,3 +1,18 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDP8G0jodxv4Ms_gI4cOD3ncud8mH4264o",
+  authDomain: "property-website-c80bc.firebaseapp.com",
+  projectId: "property-website-c80bc",
+  storageBucket: "property-website-c80bc.firebasestorage.app",
+  messagingSenderId: "846629944582",
+  appId: "1:846629944582:web:35421c66bcfcb35b2f3287"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 /* ============================================
    PRESTIGE ESTATES — Main JavaScript
    ============================================ */
@@ -309,8 +324,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!grid) return;
 
     try {
-      const res = await fetch('/api/properties', { cache: 'no-store' });
-      const properties = await res.json();
+      const querySnapshot = await getDocs(collection(db, "properties"));
+      const properties = [];
+      querySnapshot.forEach((doc) => {
+        properties.push({ id: doc.id, ...doc.data() });
+      });
 
       grid.innerHTML = ''; // Clear loading or existing
 
@@ -322,7 +340,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const cardHTML = `
           <div class="property-card reveal reveal-delay-${delayCounter}" data-category="${prop.type}">
             <div class="property-card-image">
-              <img src="/${prop.image}" alt="${prop.title}">
+              <img src="${prop.image}" alt="${prop.title}">
               <span class="property-card-badge ${isRent ? 'rent' : ''}">For ${isRent ? 'Rent' : 'Sale'}</span>
               <div class="property-card-favorite">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>

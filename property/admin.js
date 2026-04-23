@@ -1,3 +1,22 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+import { getFirestore, collection, getDocs, getDoc, doc, addDoc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+const IMGBB_API_KEY = "4e624a70eb5c79eacee2df392c148ae5";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDP8G0jodxv4Ms_gI4cOD3ncud8mH4264o",
+  authDomain: "property-website-c80bc.firebaseapp.com",
+  projectId: "property-website-c80bc",
+  storageBucket: "property-website-c80bc.firebasestorage.app",
+  messagingSenderId: "846629944582",
+  appId: "1:846629944582:web:35421c66bcfcb35b2f3287"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+// Using ImgBB instead of Firebase Storage for free image hosting
+
 document.addEventListener('DOMContentLoaded', () => {
     
     const loginSection = document.getElementById('loginSection');
@@ -14,12 +33,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const propertyForm = document.getElementById('propertyForm');
     const modalTitle = document.getElementById('modalTitle');
     
-    const token = localStorage.getItem('adminToken');
-    
-    // Check if already logged in
-    if (token) {
-        showDashboard();
-    }
+    // Auth State Observer
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            showDashboard();
+        } else {
+            showLogin();
+        }
+    });
 
     // --- Authentication ---
     loginForm.addEventListener('submit', async (e) => {
@@ -27,32 +48,24 @@ document.addEventListener('DOMContentLoaded', () => {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         
+        // Firebase expects email instead of generic username. We format it if user typed "admin"
+        const email = username.includes('@') ? username : `${username}@prestige.com`;
+
         try {
-            const res = await fetch('/api/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
-            
-            const data = await res.json();
-            
-            if (res.ok) {
-                localStorage.setItem('adminToken', data.token);
-                showDashboard();
-            } else {
-                loginError.textContent = data.error || 'Login failed';
-            }
+            await signInWithEmailAndPassword(auth, email, password);
+            loginError.textContent = '';
         } catch (err) {
-            loginError.textContent = 'Server error. Try again.';
+            loginError.textContent = 'Invalid credentials or user not found.';
+            console.error(err);
         }
     });
 
-    logoutBtn.addEventListener('click', () => {
-        localStorage.removeItem('adminToken');
-        loginSection.style.display = 'flex';
-        dashboardSection.style.display = 'none';
-        loginForm.reset();
-        loginError.textContent = '';
+    logoutBtn.addEventListener('click', async () => {
+        try {
+            await signOut(auth);
+        } catch (err) {
+            console.error('Error signing out', err);
+        }
     });
 
     function showDashboard() {
@@ -60,19 +73,28 @@ document.addEventListener('DOMContentLoaded', () => {
         dashboardSection.style.display = 'block';
         fetchAdminProperties();
     }
+    
+    function showLogin() {
+        loginSection.style.display = 'flex';
+        dashboardSection.style.display = 'none';
+        loginForm.reset();
+    }
 
     // --- Properties Management ---
     async function fetchAdminProperties() {
         try {
-            const res = await fetch('/api/properties', { cache: 'no-store' });
-            const properties = await res.json();
+            const querySnapshot = await getDocs(collection(db, "properties"));
+            const properties = [];
+            querySnapshot.forEach((doc) => {
+                properties.push({ id: doc.id, ...doc.data() });
+            });
             
             adminPropertiesTable.innerHTML = '';
             
             properties.forEach(prop => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td><img src="/${prop.image}" alt="${prop.title}"></td>
+                    <td><img src="${prop.image}" alt="${prop.title}"></td>
                     <td>${prop.title}</td>
                     <td>${prop.location}</td>
                     <td>${prop.price}</td>
@@ -119,25 +141,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function openEditModal(id) {
         try {
-            const res = await fetch(`/api/properties/${id}`);
-            const prop = await res.json();
+            const docRef = doc(db, "properties", id);
+            const docSnap = await getDoc(docRef);
             
-            document.getElementById('propId').value = prop.id;
-            document.getElementById('propTitle').value = prop.title;
-            document.getElementById('propPrice').value = prop.price;
-            document.getElementById('propType').value = prop.type;
-            document.getElementById('propLocation').value = prop.location;
-            document.getElementById('propBeds').value = prop.beds;
-            document.getElementById('propBaths').value = prop.baths;
-            document.getElementById('propSqft').value = prop.sqft.replace(/,/g, '');
-            
-            document.getElementById('currentImagePreview').innerHTML = `
-                <p>Current Image:</p>
-                <img src="/${prop.image}" alt="Current" style="width: 100px; border-radius: 4px;">
-            `;
-            
-            modalTitle.textContent = 'Edit Property';
-            propertyModal.classList.add('show');
+            if (docSnap.exists()) {
+                const prop = docSnap.data();
+                document.getElementById('propId').value = docSnap.id;
+                document.getElementById('propTitle').value = prop.title;
+                document.getElementById('propPrice').value = prop.price;
+                document.getElementById('propType').value = prop.type;
+                document.getElementById('propLocation').value = prop.location;
+                document.getElementById('propBeds').value = prop.beds;
+                document.getElementById('propBaths').value = prop.baths;
+                document.getElementById('propSqft').value = prop.sqft ? prop.sqft.replace(/,/g, '') : '';
+                
+                document.getElementById('currentImagePreview').innerHTML = `
+                    <p>Current Image:</p>
+                    <img src="${prop.image}" alt="Current" style="width: 100px; border-radius: 4px;">
+                `;
+                // Save current image URL to a hidden attribute so we can keep it if no new file is selected
+                document.getElementById('currentImagePreview').setAttribute('data-url', prop.image);
+                
+                modalTitle.textContent = 'Edit Property';
+                propertyModal.classList.add('show');
+            }
         } catch (err) {
             console.error('Failed to fetch property details', err);
         }
@@ -148,81 +175,85 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const id = document.getElementById('propId').value;
         const isEdit = !!id;
-        const token = localStorage.getItem('adminToken');
         
-        const formData = new FormData();
-        formData.append('title', document.getElementById('propTitle').value);
-        formData.append('price', document.getElementById('propPrice').value);
-        formData.append('type', document.getElementById('propType').value);
-        formData.append('location', document.getElementById('propLocation').value);
-        formData.append('beds', document.getElementById('propBeds').value);
-        formData.append('baths', document.getElementById('propBaths').value);
-        // Format sqft to add comma if not present (simple formatting)
+        const title = document.getElementById('propTitle').value;
+        const price = document.getElementById('propPrice').value;
+        const type = document.getElementById('propType').value;
+        const location = document.getElementById('propLocation').value;
+        const beds = document.getElementById('propBeds').value;
+        const baths = document.getElementById('propBaths').value;
+        
         let sqftVal = document.getElementById('propSqft').value;
         if (!sqftVal.includes(',')) {
             sqftVal = Number(sqftVal).toLocaleString('en-US');
         }
-        formData.append('sqft', sqftVal);
         
+        let imageUrl = '';
         const imageFile = document.getElementById('propImage').files[0];
-        if (imageFile) {
-            formData.append('image', imageFile);
-        } else if (!isEdit) {
-            alert("Please select an image.");
-            return;
-        }
+        
+        const submitBtn = propertyForm.querySelector('button[type="submit"]');
+        submitBtn.textContent = 'Saving...';
+        submitBtn.disabled = true;
 
         try {
-            const url = isEdit ? `/api/properties/${id}` : '/api/properties';
-            const method = isEdit ? 'PUT' : 'POST';
-            
-            const res = await fetch(url, {
-                method: method,
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                },
-                body: formData
-            });
-
-            if (res.ok) {
-                propertyModal.classList.remove('show');
-                fetchAdminProperties();
-            } else {
-                const data = await res.json();
-                alert(data.error || 'Failed to save property');
-                if (res.status === 401 || res.status === 403) {
-                     logoutBtn.click(); // Force logout on invalid token
+            if (imageFile) {
+                // Upload to ImgBB
+                const imgData = new FormData();
+                imgData.append('image', imageFile);
+                
+                const imgRes = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+                    method: 'POST',
+                    body: imgData
+                });
+                const imgJson = await imgRes.json();
+                
+                if (imgJson.success) {
+                    imageUrl = imgJson.data.url;
+                } else {
+                    throw new Error(imgJson.error?.message || "Failed to upload image to ImgBB");
                 }
+            } else if (isEdit) {
+                // Use existing image URL
+                imageUrl = document.getElementById('currentImagePreview').getAttribute('data-url');
+            } else {
+                alert("Please select an image.");
+                submitBtn.textContent = 'Save Property';
+                submitBtn.disabled = false;
+                return;
             }
+
+            const propertyData = {
+                title, price, type, location, beds: parseInt(beds)||0, baths: parseInt(baths)||0, sqft: sqftVal, image: imageUrl
+            };
+
+            if (isEdit) {
+                const docRef = doc(db, "properties", id);
+                await updateDoc(docRef, propertyData);
+            } else {
+                propertyData.createdAt = Date.now();
+                await addDoc(collection(db, "properties"), propertyData);
+            }
+
+            propertyModal.classList.remove('show');
+            fetchAdminProperties();
         } catch (err) {
             console.error('Error saving property', err);
-            alert('Server error.');
+            alert('Error saving property: ' + err.message);
+        } finally {
+            submitBtn.textContent = 'Save Property';
+            submitBtn.disabled = false;
         }
     });
 
     async function deleteProperty(id) {
         if (!confirm('Are you sure you want to delete this property?')) return;
         
-        const token = localStorage.getItem('adminToken');
         try {
-            const res = await fetch(`/api/properties/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-            
-            if (res.ok) {
-                fetchAdminProperties();
-            } else {
-                const data = await res.json();
-                alert(data.error || 'Failed to delete property');
-                if (res.status === 401 || res.status === 403) {
-                     logoutBtn.click();
-                }
-            }
+            await deleteDoc(doc(db, "properties", id));
+            fetchAdminProperties();
         } catch (err) {
             console.error('Error deleting property', err);
+            alert('Failed to delete property: ' + err.message);
         }
     }
 
