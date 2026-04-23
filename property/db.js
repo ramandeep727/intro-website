@@ -1,58 +1,53 @@
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
+const admin = require('firebase-admin');
 const bcrypt = require('bcrypt');
 
-const dbPath = path.join(__dirname, 'database.sqlite');
-const db = new sqlite3.Database(dbPath, (err) => {
-  if (err) {
-    console.error('Error opening database', err.message);
-  } else {
-    console.log('Connected to the SQLite database.');
-    db.run(`CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE,
-            password TEXT
-        )`, (err) => {
-      if (!err) {
-        // Create default admin user if not exists
-        const insert = 'INSERT INTO users (username, password) VALUES (?, ?)';
-        const hash = bcrypt.hashSync('admin123', 10);
-        db.run(insert, ['admin', hash], (err) => {
-            if (!err) {
-                console.log('Default admin created (admin / admin123)');
-            }
-        });
-      }
-    });
+const serviceAccount = require('./serviceAccountKey.json');
 
-    db.run(`CREATE TABLE IF NOT EXISTS properties (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            title TEXT,
-            price TEXT,
-            location TEXT,
-            beds INTEGER,
-            baths INTEGER,
-            sqft TEXT,
-            type TEXT, -- sale or rent
-            image TEXT
-        )`, (err) => {
-        if (!err) {
-            // Seed properties if empty
-            db.get("SELECT COUNT(*) AS count FROM properties", (err, row) => {
-                if (row && row.count === 0) {
-                    const insert = `INSERT INTO properties (title, price, location, beds, baths, sqft, type, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
-                    db.run(insert, ['Oceanview Modern Villa', '₹4.5 Cr', 'North Goa, India', 4, 3, '3,200', 'sale', 'images/property-villa.png']);
-                    db.run(insert, ['Aurora Sky Apartments', '₹85,000 /month', 'Bandra West, Mumbai', 3, 2, '1,800', 'rent', 'images/property-apartment.png']);
-                    db.run(insert, ['Skyline Penthouse Suite', '₹8.2 Cr', 'Golf Course Road, Gurugram', 5, 4, '5,400', 'sale', 'images/property-penthouse.png']);
-                    db.run(insert, ['Heritage Brick Townhouse', '₹2.8 Cr', 'Koregaon Park, Pune', 3, 2, '2,400', 'sale', 'images/property-townhouse.png']);
-                    db.run(insert, ['Premium Office Space', '₹1,20,000 /month', 'Whitefield, Bangalore', 0, 3, '4,000', 'rent', 'images/property-commercial.png']);
-                    db.run(insert, ['Paradise Garden Villa', '₹6.5 Cr', 'Jubilee Hills, Hyderabad', 6, 5, '7,200', 'sale', 'images/property-villa.png']);
-                    console.log('Database seeded with initial properties.');
-                }
-            });
-        }
-    });
-  }
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
 });
+
+const db = admin.firestore();
+
+// Seed default admin user if not exists
+async function seedDefaultAdmin() {
+  const usersRef = db.collection('users');
+  const snapshot = await usersRef.where('username', '==', 'admin').get();
+  
+  if (snapshot.empty) {
+    const hash = bcrypt.hashSync('admin123', 10);
+    // Explicitly set ID for easy lookup, or let it auto-generate. Auto-generate is fine.
+    await usersRef.add({
+      username: 'admin',
+      password: hash
+    });
+    console.log('Default admin created (admin / admin123) in Firestore');
+  }
+}
+
+// Seed initial properties if empty
+async function seedProperties() {
+  const propsRef = db.collection('properties');
+  const snapshot = await propsRef.limit(1).get();
+  
+  if (snapshot.empty) {
+    const defaultProperties = [
+      { title: 'Oceanview Modern Villa', price: '₹4.5 Cr', location: 'North Goa, India', beds: 4, baths: 3, sqft: '3,200', type: 'sale', image: 'images/property-villa.png' },
+      { title: 'Aurora Sky Apartments', price: '₹85,000 /month', location: 'Bandra West, Mumbai', beds: 3, baths: 2, sqft: '1,800', type: 'rent', image: 'images/property-apartment.png' },
+      { title: 'Skyline Penthouse Suite', price: '₹8.2 Cr', location: 'Golf Course Road, Gurugram', beds: 5, baths: 4, sqft: '5,400', type: 'sale', image: 'images/property-penthouse.png' },
+      { title: 'Heritage Brick Townhouse', price: '₹2.8 Cr', location: 'Koregaon Park, Pune', beds: 3, baths: 2, sqft: '2,400', type: 'sale', image: 'images/property-townhouse.png' },
+      { title: 'Premium Office Space', price: '₹1,20,000 /month', location: 'Whitefield, Bangalore', beds: 0, baths: 3, sqft: '4,000', type: 'rent', image: 'images/property-commercial.png' },
+      { title: 'Paradise Garden Villa', price: '₹6.5 Cr', location: 'Jubilee Hills, Hyderabad', beds: 6, baths: 5, sqft: '7,200', type: 'sale', image: 'images/property-villa.png' }
+    ];
+    
+    for (const prop of defaultProperties) {
+      await propsRef.add(prop);
+    }
+    console.log('Firestore seeded with initial properties.');
+  }
+}
+
+seedDefaultAdmin().catch(console.error);
+seedProperties().catch(console.error);
 
 module.exports = db;
