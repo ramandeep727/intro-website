@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Certifications | Raman</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="View all professional certifications earned by Raman, including Certified Ethical Hacker, React, JavaScript, HTML, and Python.">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Specific overrides/adjustments for the Certifications subpage */
+        .certs-page-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 24px 80px 24px;
+            position: relative;
+            z-index: 10;
+        }
+        .certs-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .certs-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .certs-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .back-btn-container {
+            margin-bottom: 40px;
+        }
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            transition: all var(--transition-smooth);
+        }
+        .btn-back:hover {
+            background: rgba(56, 189, 248, 0.1);
+            border-color: var(--accent-cyan);
+            transform: translateX(-4px);
+        }
+        .certs-detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        .cert-card-detailed {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            transition: all var(--transition-smooth);
+        }
+        .cert-card-detailed:hover {
+            transform: translateY(-8px);
+            border-color: var(--border-hover);
+            box-shadow: 0 20px 40px rgba(56, 189, 248, 0.1);
+        }
+        .cert-img-wrapper {
+            position: relative;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            margin-bottom: 20px;
+            border: 1px solid var(--glass-border);
+        }
+        .cert-img-detailed {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+        .cert-card-detailed:hover .cert-img-detailed {
+            transform: scale(1.03);
+        }
+        .cert-info-detailed {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .cert-info-detailed h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+        .cert-issuer-detailed {
+            font-size: 14px;
+            color: var(--accent-cyan);
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .cert-desc-detailed {
+            font-size: 13.5px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+        .cert-actions-detailed {
+            display: flex;
+            gap: 12px;
+            margin-top: auto;
+        }
+        .cert-btn {
+            flex: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 10px;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            transition: all var(--transition-smooth);
+        }
+        .cert-btn-primary {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-violet));
+            color: #0a0a1a;
+        }
+        .cert-btn-primary:hover {
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+            transform: translateY(-2px);
+        }
+        .cert-btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+        }
+        .cert-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--text-secondary);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ANIMATED BACKGROUND -->
+    <div class="bg-orbs">
+        <div class="orb"></div>
+        <div class="orb"></div>
+        <div class="orb"></div>
+    </div>
+
+    <div class="certs-page-container">
+        <!-- Back Button -->
+        <div class="back-btn-container">
+            <a href="../index.html#certifications" class="btn-back">
+                <i class="fa-solid fa-arrow-left"></i> Back to Portfolio
+            </a>
+        </div>
+
+        <!-- Header -->
+        <div class="certs-header">
+            <h1>All Certifications</h1>
+            <p>A compilation of my academic qualifications, professional courses, and technical specializations that validate my skills and industry readiness.</p>
+        </div>
+
+        <!-- Grid of all 5 certificates -->
+        <div class="certs-detail-grid">
+            <!-- 1. CEH -->
+            <div class="cert-card-detailed">
+                <div class="cert-img-wrapper">
+                    <img src="Ethical_hacker.jpg" alt="Certified Ethical Hacker" class="cert-img-detailed">
+                </div>
+                <div class="cert-info-detailed">
+                    <h2>Certified Ethical Hacker (CEH)</h2>
+                    <div class="cert-issuer-detailed">
+                        <i class="fa-solid fa-certificate"></i> Pearson / Coursera
+                    </div>
+                    <p class="cert-desc-detailed">Comprehensive training on cybersecurity protocols, network vulnerability assessment, systems auditing, and penetration testing frameworks. Earned in June 2026.</p>
+                    <div class="cert-actions-detailed">
+                        <a href="Ethical_hacker.pdf" target="_blank" rel="noopener" class="cert-btn cert-btn-primary">
+                            <i class="fa-solid fa-file-pdf"></i> View PDF
+                        </a>
+                        <a href="https://coursera.org/verify/8SWS6FN7328A" target="_blank" rel="noopener" class="cert-btn cert-btn-secondary">
+                            <i class="fa-solid fa-shield-halved"></i> Verify Online
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. JavaScript -->
+            <div class="cert-card-detailed">
+                <div class="cert-img-wrapper">
+                    <img src="javascript.png" alt="JavaScript Certification" class="cert-img-detailed">
+                </div>
+                <div class="cert-info-detailed">
+                    <h2>JavaScript (Advanced)</h2>
+                    <div class="cert-issuer-detailed">
+                        <i class="fa-solid fa-certificate"></i> Meta / Coursera
+                    </div>
+                    <p class="cert-desc-detailed">Advanced JavaScript validation covering ES6+ syntax, asynchronous programming models (Promises, async/await), document object model manipulation, and standard design patterns.</p>
+                    <div class="cert-actions-detailed">
+                        <a href="javascript.pdf" target="_blank" rel="noopener" class="cert-btn cert-btn-primary" style="width: 100%;">
+                            <i class="fa-solid fa-file-pdf"></i> View PDF
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. React -->
+            <div class="cert-card-detailed">
+                <div class="cert-img-wrapper">
+                    <img src="react.png" alt="React Certification" class="cert-img-detailed">
+                </div>
+                <div class="cert-info-detailed">
+                    <h2>React Development</h2>
+                    <div class="cert-issuer-detailed">
+                        <i class="fa-solid fa-certificate"></i> Meta / Coursera
+                    </div>
+                    <p class="cert-desc-detailed">Validates competency in building responsive, efficient, component-driven frontend applications using hooks, state management (Redux/Context API), and routing strategies.</p>
+                    <div class="cert-actions-detailed">
+                        <a href="react.pdf" target="_blank" rel="noopener" class="cert-btn cert-btn-primary" style="width: 100%;">
+                            <i class="fa-solid fa-file-pdf"></i> View PDF
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. HTML -->
+            <div class="cert-card-detailed">
+                <div class="cert-img-wrapper">
+                    <img src="html_cert.png" alt="HTML Certification" class="cert-img-detailed">
+                </div>
+                <div class="cert-info-detailed">
+                    <h2>HTML &amp; Web Fundamentals</h2>
+                    <div class="cert-issuer-detailed">
+                        <i class="fa-solid fa-certificate"></i> Udemy
+                    </div>
+                    <p class="cert-desc-detailed">Covers modern semantic HTML, document layouts, cross-browser compatibility, web standards, and critical accessibility practices (A11y).</p>
+                    <div class="cert-actions-detailed">
+                        <a href="html_cert.pdf" target="_blank" rel="noopener" class="cert-btn cert-btn-primary" style="width: 100%;">
+                            <i class="fa-solid fa-file-pdf"></i> View PDF
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Python -->
+            <div class="cert-card-detailed">
+                <div class="cert-img-wrapper">
+                    <img src="python.png" alt="Python Certification" class="cert-img-detailed">
+                </div>
+                <div class="cert-info-detailed">
+                    <h2>Python Programming</h2>
+                    <div class="cert-issuer-detailed">
+                        <i class="fa-solid fa-certificate"></i> Coursera
+                    </div>
+                    <p class="cert-desc-detailed">Foundational skills in pythonic programming structure, object-oriented concepts (OOP), text manipulation, list operations, and basic scripting automation.</p>
+                    <div class="cert-actions-detailed">
+                        <a href="python.pdf" target="_blank" rel="noopener" class="cert-btn cert-btn-primary" style="width: 100%;">
+                            <i class="fa-solid fa-file-pdf"></i> View PDF
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
