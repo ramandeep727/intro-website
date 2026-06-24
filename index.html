@@ -2,9 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Raman | Computer Science Engineer & Web Developer</title>
+    <title>Raman | CS Engineer & Full-Stack Developer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Raman is a Computer Science Engineer and web developer. Explore projects, skills, and download resume.">
+    <meta name="description" content="Raman is a Computer Science Engineer and full-stack web developer from Punjab, India. Explore real-world projects, certifications, and download resume.">
+    <meta name="keywords" content="Raman, Ramandeep Singh, Computer Science Engineer, Web Developer, Python, React, JavaScript, Firebase, Django, Portfolio, Fresher, Punjab">
+    <meta name="author" content="Raman">
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ramandeep727.github.io/">
+    <meta property="og:title" content="Raman | CS Engineer & Full-Stack Developer">
+    <meta property="og:description" content="CS Engineer skilled in full-stack web development with Python, React, Firebase & more. Available for internships & full-time roles.">
+    <meta property="og:image" content="https://ramandeep727.github.io/images/profile.jpeg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Raman | CS Engineer & Developer">
+    <meta name="twitter:description" content="CS Engineer & Full-Stack Developer. Open to internships and full-time opportunities.">
+
+    <!-- Favicon (SVG inline) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230a0a1a'/%3E%3Ctext y='78' font-size='72' font-family='Inter,sans-serif' font-weight='900' fill='%2338bdf8' x='50' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+
     <link rel="stylesheet" href="style.css">
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -24,7 +40,8 @@
         <nav class="navbar">
             <div class="nav-logo">Raman.</div>
             <ul class="nav-links">
-                <li><a href="#about" class="active">About</a></li>
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#about">About</a></li>
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#certifications">Certifications</a></li>
                 <li><a href="#projects">Projects</a></li>
@@ -39,6 +56,7 @@
 
         <!-- MOBILE OVERLAY -->
         <div class="mobile-overlay">
+            <a href="#home">Home</a>
             <a href="#about">About</a>
             <a href="#skills">Skills</a>
             <a href="#certifications">Certifications</a>
@@ -47,10 +65,14 @@
         </div>
 
         <!-- HERO -->
-        <section id="about" class="hero reveal-section">
+        <section id="home" class="hero reveal-section">
+            <!-- Open to Work Badge -->
+            <div class="open-to-work">
+                <span class="status-dot"></span> Open to Work
+            </div>
             <div class="profile-wrapper">
                 <div class="profile-ring"></div>
-                <img src="images/profile.jpeg" class="profile-pic" alt="Raman profile">
+                <img src="images/profile.jpeg" class="profile-pic" alt="Raman profile photo">
             </div>
             <h1>Hi, I'm Raman</h1>
             <div class="typing-wrapper">
@@ -61,52 +83,182 @@
                 Passionate about building scalable, clean, and user-centric web applications. Focused on turning complex problems into elegant solutions.
             </p>
             <div class="hero-ctas">
-                <a href="#projects" class="btn-primary">
+                <a href="#projects" class="btn-primary" id="hero-view-projects">
                     <i class="fa-solid fa-code"></i> View Projects
                 </a>
-                <a href="resume/resume.pdf" download class="btn-secondary">
+                <a href="resume/resume.pdf" download class="btn-secondary" id="hero-download-resume">
                     <i class="fa-regular fa-file-pdf"></i> Download Resume
                 </a>
             </div>
-            <a href="#skills" class="scroll-indicator">
+            <!-- Social quick-links in hero -->
+            <div class="hero-socials">
+                <a href="https://github.com/ramandeep727" target="_blank" class="hero-social-link" aria-label="GitHub" id="hero-github">
+                    <i class="fa-brands fa-github"></i> GitHub
+                </a>
+                <!-- ⚠️ Update the LinkedIn URL below to your actual profile -->
+                <a href="https://linkedin.com/in/ramandeep-singh" target="_blank" class="hero-social-link" aria-label="LinkedIn" id="hero-linkedin">
+                    <i class="fa-brands fa-linkedin"></i> LinkedIn
+                </a>
+                <a href="mailto:ramandeepssingh51@gmail.com" class="hero-social-link" aria-label="Email" id="hero-email">
+                    <i class="fa-regular fa-envelope"></i> Email Me
+                </a>
+            </div>
+            <a href="#about" class="scroll-indicator" aria-label="Scroll down">
                 <i class="fa-solid fa-chevron-down"></i>
             </a>
+        </section>
+
+        <!-- STATS STRIP -->
+        <div class="stats-strip reveal-section">
+            <div class="stat-item">
+                <span class="stat-number" data-target="6">0</span><span class="stat-suffix">+</span>
+                <span class="stat-label">Projects Deployed</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-number" data-target="5">0</span><span class="stat-suffix">+</span>
+                <span class="stat-label">Certifications</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-number" data-target="2">0</span><span class="stat-suffix">+</span>
+                <span class="stat-label">Years Coding</span>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <span class="stat-number" data-target="8">0</span><span class="stat-suffix">+</span>
+                <span class="stat-label">Technologies</span>
+            </div>
+        </div>
+
+        <!-- ABOUT ME -->
+        <section id="about" class="reveal-section">
+            <div class="section-header">
+                <h2>About Me</h2>
+                <p>My background, education, and what drives me forward.</p>
+            </div>
+            <div class="about-grid">
+                <div class="about-text-card">
+                    <p>I'm a final-year <strong>Computer Science Engineering</strong> student with a strong passion for building full-stack web applications that solve real-world problems. I enjoy turning complex ideas into clean, scalable, and user-friendly digital experiences.</p>
+                    <p style="margin-top: 16px;">Currently seeking <strong>internships and full-time opportunities</strong> at innovative companies where I can grow rapidly, contribute meaningfully, and make a measurable impact.</p>
+                    <div class="about-highlights">
+                        <div class="highlight-item">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            <div>
+                                <strong>B.Tech — Computer Science Engineering</strong>
+                                <span>2022 – 2026 · Punjab, India</span>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <div>
+                                <strong>Punjab, India</strong>
+                                <span>Open to Remote &amp; Relocation</span>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <i class="fa-solid fa-briefcase"></i>
+                            <div>
+                                <strong>Available For</strong>
+                                <span>Internship · Full-Time · Freelance</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-side">
+                    <div class="currently-learning">
+                        <h4><i class="fa-solid fa-rocket"></i> Currently Learning</h4>
+                        <ul>
+                            <li><i class="fa-brands fa-react" style="color:#61dafb;"></i> Advanced React &amp; Next.js</li>
+                            <li><i class="fa-solid fa-brain" style="color:#a78bfa;"></i> Data Structures &amp; Algorithms</li>
+                            <li><i class="fa-brands fa-python" style="color:#3776ab;"></i> Machine Learning Basics</li>
+                            <li><i class="fa-brands fa-docker" style="color:#2496ed;"></i> Docker &amp; Cloud Fundamentals</li>
+                        </ul>
+                    </div>
+                    <div class="interest-tags">
+                        <span class="interest-tag">🌐 Web Dev</span>
+                        <span class="interest-tag">📊 Problem Solving</span>
+                        <span class="interest-tag">🎯 DSA</span>
+                        <span class="interest-tag">☁️ Cloud</span>
+                        <span class="interest-tag">🚀 Open Source</span>
+                        <span class="interest-tag">🤖 AI / ML</span>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- SKILLS -->
         <section id="skills" class="reveal-section">
             <div class="section-header">
-                <h2>Skills & Technologies</h2>
+                <h2>Skills &amp; Technologies</h2>
                 <p>The tools and technologies I use to bring ideas to life.</p>
             </div>
-            <div class="skills-grid">
-                <div class="skill-card stagger-item">
-                    <i class="fa-brands fa-html5 skill-icon" style="color: #e34f26;"></i>
-                    <span>HTML5</span>
+            <div class="skill-categories">
+                <!-- Frontend -->
+                <div class="skill-category stagger-item">
+                    <h4 class="skill-cat-title"><i class="fa-solid fa-display"></i> Frontend Development</h4>
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <i class="fa-brands fa-html5 skill-icon" style="color: #e34f26;"></i>
+                            <span>HTML5</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="fa-brands fa-css3-alt skill-icon" style="color: #1572b6;"></i>
+                            <span>CSS3</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="fa-brands fa-js skill-icon" style="color: #f7df1e;"></i>
+                            <span>JavaScript</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="fa-brands fa-react skill-icon" style="color: #61dafb;"></i>
+                            <span>React.js</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="skill-card stagger-item">
-                    <i class="fa-brands fa-css3-alt skill-icon" style="color: #1572b6;"></i>
-                    <span>CSS3</span>
+                <!-- Backend -->
+                <div class="skill-category stagger-item">
+                    <h4 class="skill-cat-title"><i class="fa-solid fa-server"></i> Backend Development</h4>
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <i class="fa-brands fa-python skill-icon" style="color: #3776ab;"></i>
+                            <span>Python</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="fa-solid fa-snake skill-icon" style="color: #0d6c4e; font-size: 1.6rem;"></i>
+                            <span>Django</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="fa-brands fa-node-js skill-icon" style="color: #68a063;"></i>
+                            <span>Node.js</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="fa-solid fa-plug skill-icon" style="color: #94a3b8;"></i>
+                            <span>REST APIs</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="skill-card stagger-item">
-                    <i class="fa-brands fa-js skill-icon" style="color: #f7df1e;"></i>
-                    <span>JavaScript</span>
-                </div>
-                <div class="skill-card stagger-item">
-                    <i class="fa-brands fa-python skill-icon" style="color: #3776ab;"></i>
-                    <span>Python</span>
-                </div>
-                <div class="skill-card stagger-item">
-                    <i class="fa-brands fa-python skill-icon" style="color: #092e20;"></i>
-                    <span>Django</span>
-                </div>
-                <div class="skill-card stagger-item">
-                    <i class="fa-solid fa-database skill-icon" style="color: #f29111;"></i>
-                    <span>SQL</span>
-                </div>
-                <div class="skill-card stagger-item">
-                    <i class="fa-brands fa-react skill-icon" style="color: #61dafb;"></i>
-                    <span>React Basics</span>
+                <!-- Database & Tools -->
+                <div class="skill-category stagger-item">
+                    <h4 class="skill-cat-title"><i class="fa-solid fa-database"></i> Database &amp; Tools</h4>
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <i class="fa-solid fa-database skill-icon" style="color: #f29111;"></i>
+                            <span>SQL</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="fa-solid fa-fire skill-icon" style="color: #FFCA28;"></i>
+                            <span>Firebase</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="fa-brands fa-git-alt skill-icon" style="color: #f05032;"></i>
+                            <span>Git</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="fa-brands fa-github skill-icon" style="color: #e2e8f0;"></i>
+                            <span>GitHub</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -119,7 +271,15 @@
             </div>
             <div class="certifications-grid">
                 <div class="cert-card stagger-item">
-                    <a href="certificates/javascript.pdf" target="_blank">
+                    <a href="certificates/Ethical_hacker.pdf" target="_blank" rel="noopener">
+                        <img src="certificates/Ethical_hacker.jpg" alt="Certified Ethical Hacker" class="cert-img">
+                    </a>
+                    <h3>Certified Ethical Hacker (CEH)</h3>
+                    <p class="issuer"><i class="fa-solid fa-certificate"></i> Pearson / Coursera</p>
+                    <p class="cert-desc">Focused on network security, vulnerability assessment, penetration testing techniques, and ethical hacking methodologies.</p>
+                </div>
+                <div class="cert-card stagger-item">
+                    <a href="certificates/javascript.pdf" target="_blank" rel="noopener">
                         <img src="certificates/javascript.png" alt="JavaScript Certification" class="cert-img">
                     </a>
                     <h3>JavaScript (Advanced)</h3>
@@ -127,7 +287,7 @@
                     <p class="cert-desc">Covered ES6+, async/await, DOM manipulation, and real-world frontend problem solving.</p>
                 </div>
                 <div class="cert-card stagger-item">
-                    <a href="certificates/react.pdf" target="_blank">
+                    <a href="certificates/react.pdf" target="_blank" rel="noopener">
                         <img src="certificates/react.png" alt="React Certification" class="cert-img">
                     </a>
                     <h3>React Development</h3>
@@ -135,24 +295,24 @@
                     <p class="cert-desc">Learned component-based architecture, hooks, state management, and building scalable frontend apps.</p>
                 </div>
                 <div class="cert-card stagger-item">
-                    <a href="certificates/html_cert.pdf" target="_blank">
+                    <a href="certificates/html_cert.pdf" target="_blank" rel="noopener">
                         <img src="certificates/html_cert.png" alt="HTML Certification" class="cert-img">
                     </a>
-                    <h3>HTML Certification</h3>
-                    <p class="issuer"><i class="fa-solid fa-certificate"></i> Online Course</p>
+                    <h3>HTML &amp; Web Fundamentals</h3>
+                    <p class="issuer"><i class="fa-solid fa-certificate"></i> Udemy</p>
                     <p class="cert-desc">Learned semantic HTML, page structure, accessibility basics, and best practices for modern web development.</p>
                 </div>
                 <div class="cert-card stagger-item">
-                    <a href="certificates/python.pdf" target="_blank">
+                    <a href="certificates/python.pdf" target="_blank" rel="noopener">
                         <img src="certificates/python.png" alt="Python Certification" class="cert-img">
                     </a>
                     <h3>Python Programming</h3>
-                    <p class="issuer"><i class="fa-solid fa-certificate"></i> Online Course</p>
+                    <p class="issuer"><i class="fa-solid fa-certificate"></i> Coursera</p>
                     <p class="cert-desc">Covered Python fundamentals, data types, control flow, and problem-solving using practical examples.</p>
                 </div>
             </div>
             <div class="view-all-certs">
-                <a href="certificates/all-certificates.html" class="btn-secondary">
+                <a href="certificates/all-certificates.html" class="btn-secondary" id="view-all-certs-btn">
                     View All Certificates <i class="fa-solid fa-arrow-right"></i>
                 </a>
             </div>
@@ -165,132 +325,227 @@
                 <p>A selection of my recent work and technical achievements.</p>
             </div>
             <div class="projects-grid">
+
                 <div class="project-card stagger-item">
-                    <h3>School ERP System</h3>
-                    <p>The application provides a centralized platform for managing student records, staff details, attendance, and institutional data efficiently.The system is built using HTML, CSS, and JavaScript for a responsive and user-friendly interface, with backend data handling powered by Firebase.</p>
-                    <div class="project-tech">
-                        <span class="tech-pill">Node.js</span>
-                        <span class="tech-pill">HTML</span>
-                        <span class="tech-pill">CSS</span>
-                        <span class="tech-pill">imgBB</span>
-                        <span class="tech-pill">Firebase</span>
-                        <span class="tech-pill">JavaScript</span>
+                    <div class="project-header erp-header">
+                        <i class="fa-solid fa-school"></i>
                     </div>
-                    <a href="https://ramandeep727.github.io/school-erp/" class="project-link btn-secondary-sm" target="_blank">
-                        Live Demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </a>
+                    <div class="project-body">
+                        <h3>School ERP System</h3>
+                        <p>A centralized platform managing student records, staff details, attendance, and institutional data — built with Firebase real-time database and a responsive UI.</p>
+                        <div class="project-tech">
+                            <span class="tech-pill">HTML</span>
+                            <span class="tech-pill">CSS</span>
+                            <span class="tech-pill">JavaScript</span>
+                            <span class="tech-pill">Firebase</span>
+                            <span class="tech-pill">Node.js</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://ramandeep727.github.io/school-erp/" class="btn-secondary-sm" target="_blank" rel="noopener" id="erp-demo-link">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo
+                            </a>
+                            <a href="https://github.com/ramandeep727/school-erp" class="btn-ghost-sm" target="_blank" rel="noopener" id="erp-github-link">
+                                <i class="fa-brands fa-github"></i> GitHub
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="project-card stagger-item">
-                    <h3>University Exam Scheduler</h3>
-                    <p>Frontend admin panel built using HTML, CSS and JavaScript to manage multi-college exam schedules with clash-free subject allocation, holidays, PDF/Excel export and session-based login.</p>
-                    <div class="project-tech">
-                        <span class="tech-pill">HTML</span>
-                        <span class="tech-pill">CSS</span>
-                        <span class="tech-pill">JavaScript</span>
-                        <span class="tech-pill">Node.js</span>
+                    <div class="project-header scheduler-header">
+                        <i class="fa-solid fa-calendar-days"></i>
                     </div>
-                    <a href="https://datesheet-generator-f6ni.vercel.app/login.html" class="project-link btn-secondary-sm" target="_blank">
-                        Live Demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </a>
+                    <div class="project-body">
+                        <h3>University Exam Scheduler</h3>
+                        <p>Admin panel for multi-college exam scheduling with clash-free subject allocation, holiday management, PDF/Excel export, and session-based login.</p>
+                        <div class="project-tech">
+                            <span class="tech-pill">HTML</span>
+                            <span class="tech-pill">CSS</span>
+                            <span class="tech-pill">JavaScript</span>
+                            <span class="tech-pill">Node.js</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://datesheet-generator-f6ni.vercel.app/login.html" class="btn-secondary-sm" target="_blank" rel="noopener" id="scheduler-demo-link">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo
+                            </a>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="project-card stagger-item">
-                    <h3>Real Estate Firm Website</h3>
-                    <p>A dynamic property listing platform featuring an admin backend for managing properties, complete with a Firebase Firestore database and responsive frontend.</p>
-                    <div class="project-tech">
-                        <span class="tech-pill">Node.js</span>
-                        <span class="tech-pill">Express</span>
-                        <span class="tech-pill">Firebase</span>
-                        <span class="tech-pill">JavaScript</span>
+                    <div class="project-header realestate-header">
+                        <i class="fa-solid fa-house"></i>
                     </div>
-                    <a href="property/index.html" class="project-link btn-secondary-sm" target="_blank">
-                        Live Demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </a>
+                    <div class="project-body">
+                        <h3>Real Estate Firm Website</h3>
+                        <p>A dynamic property listing platform with an admin backend for managing properties, Firebase Firestore database integration, and a fully responsive frontend.</p>
+                        <div class="project-tech">
+                            <span class="tech-pill">Node.js</span>
+                            <span class="tech-pill">Express</span>
+                            <span class="tech-pill">Firebase</span>
+                            <span class="tech-pill">JavaScript</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="property/index.html" class="btn-secondary-sm" target="_blank" rel="noopener" id="realestate-demo-link">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo
+                            </a>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="project-card stagger-item">
-                    <h3>Electricity Billing System</h3>
-                    <p>A frontend web application to calculate electricity bills with slab-based pricing (0–100, 100–300, 300+ units), real-time calculation and clean UI.</p>
-                    <div class="project-tech">
-                        <span class="tech-pill">HTML</span>
-                        <span class="tech-pill">CSS</span>
-                        <span class="tech-pill">JavaScript</span>
+                    <div class="project-header billing-header">
+                        <i class="fa-solid fa-bolt"></i>
                     </div>
-                    <a href="electricity/index.html" class="project-link btn-secondary-sm" target="_blank">
-                        Live Demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </a>
+                    <div class="project-body">
+                        <h3>Electricity Billing System</h3>
+                        <p>Calculates electricity bills with slab-based pricing (0–100, 100–300, 300+ units), real-time computation and a clean, interactive UI.</p>
+                        <div class="project-tech">
+                            <span class="tech-pill">HTML</span>
+                            <span class="tech-pill">CSS</span>
+                            <span class="tech-pill">JavaScript</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="electricity/index.html" class="btn-secondary-sm" target="_blank" rel="noopener" id="billing-demo-link">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo
+                            </a>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="project-card stagger-item">
-                    <h3>School Timetable Generator</h3>
-                    <p>A web-based system that automatically generates conflict-free school timetables by assigning subjects, teachers, and classrooms efficiently.</p>
-                    <div class="project-tech">
-                        <span class="tech-pill">HTML</span>
-                        <span class="tech-pill">CSS</span>
-                        <span class="tech-pill">JavaScript</span>
+                    <div class="project-header timetable-header">
+                        <i class="fa-solid fa-table-cells"></i>
                     </div>
-                    <a href="timetable/index.html" target="_blank" class="project-link btn-secondary-sm">
-                        Live Demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </a>
+                    <div class="project-body">
+                        <h3>School Timetable Generator</h3>
+                        <p>A web-based system that automatically generates conflict-free school timetables by assigning subjects, teachers, and classrooms efficiently.</p>
+                        <div class="project-tech">
+                            <span class="tech-pill">HTML</span>
+                            <span class="tech-pill">CSS</span>
+                            <span class="tech-pill">JavaScript</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="timetable/index.html" target="_blank" rel="noopener" class="btn-secondary-sm" id="timetable-demo-link">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo
+                            </a>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="project-card stagger-item">
-                    <h3>Expenditure Tracker</h3>
-                    <p>A personal finance tracker that helps users manage daily expenses, categorize spending, and visualize budgets in a clean interface.</p>
-                    <div class="project-tech">
-                        <span class="tech-pill">HTML</span>
-                        <span class="tech-pill">CSS</span>
-                        <span class="tech-pill">JavaScript</span>
-                        <span class="tech-pill">LocalStorage</span>
+                    <div class="project-header expense-header">
+                        <i class="fa-solid fa-wallet"></i>
                     </div>
-                    <a href="https://expense-tracker-drab-sigma-25.vercel.app/" target="_blank" class="project-link btn-secondary-sm">
-                        Live Demo <i class="fa-solid fa-arrow-up-right-from-square"></i>
-                    </a>
+                    <div class="project-body">
+                        <h3>Expenditure Tracker</h3>
+                        <p>A personal finance tracker that helps users manage daily expenses, categorize spending, and visualize budgets with an interactive and clean interface.</p>
+                        <div class="project-tech">
+                            <span class="tech-pill">HTML</span>
+                            <span class="tech-pill">CSS</span>
+                            <span class="tech-pill">JavaScript</span>
+                            <span class="tech-pill">LocalStorage</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://expense-tracker-drab-sigma-25.vercel.app/" target="_blank" rel="noopener" class="btn-secondary-sm" id="expense-demo-link">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i> Live Demo
+                            </a>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </section>
 
-        <!-- Delivered solutions -->
-        
-
         <!-- CONTACT -->
         <section id="contact" class="reveal-section">
-            <div class="section-header text-center" style="text-align: center;">
+            <div class="section-header" style="text-align: center;">
                 <h2>Get In Touch</h2>
-                <p>Feel free to reach out for collaborations, opportunities, or just a friendly hello.</p>
+                <p>Open to collaborations, opportunities, or just a friendly hello.</p>
             </div>
-            <div class="contact-content">
-                <div class="contact-cards">
-                    <a href="mailto:ramandeepssingh51@gmail.com" class="contact-card stagger-item">
-                        <i class="fa-regular fa-envelope"></i>
-                        <div class="contact-label">Email</div>
-                        <div class="contact-value">ramandeepssingh51@gmail.com</div>
-                    </a>
-                    <a href="tel:+918194847248" class="contact-card stagger-item">
-                        <i class="fa-solid fa-phone"></i>
-                        <div class="contact-label">Phone</div>
-                        <div class="contact-value">+91 81948 47248</div>
-                    </a>
-                    <a href="https://github.com/ramandeep727" target="_blank" class="contact-card stagger-item">
-                        <i class="fa-brands fa-github"></i>
-                        <div class="contact-label">GitHub</div>
-                        <div class="contact-value">ramandeep727</div>
-                    </a>
+            <div class="contact-layout">
+                <!-- Left: Cards + Resume -->
+                <div class="contact-info">
+                    <div class="contact-cards">
+                        <a href="mailto:ramandeepssingh51@gmail.com" class="contact-card stagger-item" id="contact-email-card">
+                            <i class="fa-regular fa-envelope"></i>
+                            <div class="contact-label">Email</div>
+                            <div class="contact-value">ramandeepssingh51@gmail.com</div>
+                        </a>
+                        <a href="https://github.com/ramandeep727" target="_blank" rel="noopener" class="contact-card stagger-item" id="contact-github-card">
+                            <i class="fa-brands fa-github"></i>
+                            <div class="contact-label">GitHub</div>
+                            <div class="contact-value">ramandeep727</div>
+                        </a>
+                        <!-- ⚠️ Update the LinkedIn URL below to your actual profile -->
+                        <a href="https://linkedin.com/in/ramandeep-singh" target="_blank" rel="noopener" class="contact-card stagger-item linkedin-card" id="contact-linkedin-card">
+                            <i class="fa-brands fa-linkedin"></i>
+                            <div class="contact-label">LinkedIn</div>
+                            <div class="contact-value">Connect with me</div>
+                        </a>
+                    </div>
+                    <div class="contact-cta stagger-item">
+                        <a href="resume/resume.pdf" download class="btn-primary" id="contact-resume-btn">
+                            <i class="fa-solid fa-download"></i> Download Resume
+                        </a>
+                    </div>
                 </div>
-                <div class="contact-cta stagger-item">
-                    <a href="resume/resume.pdf" download class="btn-primary">
-                        <i class="fa-solid fa-download"></i> Download Resume
-                    </a>
-                </div>
+
+                <!-- Right: Contact Form -->
+                <!-- ⚠️ Register at https://formspree.io to get your own form ID and update the action URL -->
+                <form class="contact-form stagger-item" id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="contact-name">Name</label>
+                            <input type="text" id="contact-name" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-email-input">Email</label>
+                            <input type="email" id="contact-email-input" name="_replyto" placeholder="your@email.com" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-subject">Subject</label>
+                        <input type="text" id="contact-subject" name="subject" placeholder="Internship Opportunity / Project Collaboration..." required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-message">Message</label>
+                        <textarea id="contact-message" name="message" placeholder="Tell me about the opportunity or project..." rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary form-submit" id="form-submit-btn">
+                        <i class="fa-solid fa-paper-plane"></i> Send Message
+                    </button>
+                    <p class="form-note">✉️ Or reach me directly at <a href="mailto:ramandeepssingh51@gmail.com">ramandeepssingh51@gmail.com</a></p>
+                </form>
             </div>
         </section>
 
         <!-- FOOTER -->
         <footer>
             <div class="footer-content">
-                <div class="social-links mb-4" style="margin-bottom: 20px;">
-                    <a href="https://github.com/ramandeep727" target="_blank" class="social-link" aria-label="GitHub">
+                <div class="social-links" style="margin-bottom: 20px;">
+                    <a href="https://github.com/ramandeep727" target="_blank" rel="noopener" class="social-link" aria-label="GitHub">
                         <i class="fa-brands fa-github"></i>
                     </a>
-                    <!-- Add more social links here if available -->
+                    <!-- ⚠️ Update the LinkedIn URL below -->
+                    <a href="https://linkedin.com/in/ramandeep-singh" target="_blank" rel="noopener" class="social-link linkedin-social" aria-label="LinkedIn">
+                        <i class="fa-brands fa-linkedin"></i>
+                    </a>
+                    <a href="mailto:ramandeepssingh51@gmail.com" class="social-link" aria-label="Email">
+                        <i class="fa-regular fa-envelope"></i>
+                    </a>
+                    <a href="resume/resume.pdf" download class="social-link" aria-label="Download Resume">
+                        <i class="fa-regular fa-file-pdf"></i>
+                    </a>
                 </div>
+                <nav class="footer-nav" aria-label="Footer Navigation">
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#certifications">Certifications</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
+                </nav>
                 <p>&copy; 2026 Raman. Built with <i class="fa-solid fa-heart heart"></i> and passion.</p>
             </div>
         </footer>
@@ -306,21 +561,16 @@
         const navLinks = document.querySelectorAll('.nav-links a');
         const sections = document.querySelectorAll('section');
         const typingText = document.querySelector('.typing-text');
-        
+
         // Typing Effect Words
-        const words = ['Computer Science Engineer', 'Web Developer', 'Software Enthusiast'];
+        const words = ['Computer Science Engineer', 'Full-Stack Developer', 'Python Developer', 'Problem Solver'];
         let wordIndex = 0;
         let charIndex = words[0].length;
         let isDeleting = true;
-        let isTypingActive = false; // To delay start
 
         // Navbar Scroll Effect
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
         });
 
         // Hamburger Menu Toggle
@@ -349,7 +599,6 @@
                     current = section.getAttribute('id');
                 }
             });
-
             navLinks.forEach(link => {
                 link.classList.remove('active');
                 if (link.getAttribute('href').includes(current)) {
@@ -359,105 +608,124 @@
         });
 
         // Reveal Animation Observer
-        const revealOptions = {
-            threshold: 0.1,
-            rootMargin: "0px 0px -50px 0px"
-        };
-
+        const revealOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
         const revealObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('revealed');
-                    
-                    // Trigger stagger animations for children if present
                     const staggerItems = entry.target.querySelectorAll('.stagger-item');
                     if (staggerItems.length > 0) {
                         staggerItems.forEach((item, index) => {
-                            setTimeout(() => {
-                                item.classList.add('visible');
-                            }, index * 100);
+                            setTimeout(() => item.classList.add('visible'), index * 120);
                         });
                     }
-                    
                     observer.unobserve(entry.target);
                 }
             });
         }, revealOptions);
 
-        sections.forEach(section => {
-            revealObserver.observe(section);
-        });
+        document.querySelectorAll('.reveal-section').forEach(el => revealObserver.observe(el));
 
-        // Initial Typing Effect setup (already has first word from HTML)
-        setTimeout(() => {
-            typeEffect();
-        }, 2000); // Wait 2s before starting to delete
+        // Counter Animation for Stats Strip
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.querySelectorAll('.stat-number').forEach(num => {
+                        const target = parseInt(num.getAttribute('data-target'));
+                        const duration = 1500;
+                        const step = target / (duration / 16);
+                        let current = 0;
+                        const timer = setInterval(() => {
+                            current += step;
+                            if (current >= target) { current = target; clearInterval(timer); }
+                            num.textContent = Math.floor(current);
+                        }, 16);
+                    });
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
 
+        const statsStrip = document.querySelector('.stats-strip');
+        if (statsStrip) counterObserver.observe(statsStrip);
+
+        // Typing Effect
+        setTimeout(typeEffect, 2000);
         function typeEffect() {
             const currentWord = words[wordIndex];
-            
-            if (isDeleting) {
-                charIndex--;
-            } else {
-                charIndex++;
-            }
-            
+            if (isDeleting) { charIndex--; } else { charIndex++; }
             typingText.textContent = currentWord.substring(0, charIndex);
-            
             let typeSpeed = isDeleting ? 50 : 100;
-            
             if (!isDeleting && charIndex === currentWord.length) {
-                // Word is fully typed, pause before deleting
-                typeSpeed = 2000;
-                isDeleting = true;
+                typeSpeed = 2000; isDeleting = true;
             } else if (isDeleting && charIndex === 0) {
-                // Word is fully deleted, move to next word
                 isDeleting = false;
                 wordIndex = (wordIndex + 1) % words.length;
                 typeSpeed = 500;
             }
-            
             setTimeout(typeEffect, typeSpeed);
         }
-        
-        // Initial reveal for items that might be in viewport on load
+
         window.dispatchEvent(new Event('scroll'));
+
+        // Contact Form — AJAX Submission
+        const contactForm = document.getElementById('contact-form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const btn = contactForm.querySelector('.form-submit');
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+                btn.disabled = true;
+                try {
+                    const res = await fetch(contactForm.action, {
+                        method: 'POST',
+                        body: new FormData(contactForm),
+                        headers: { 'Accept': 'application/json' }
+                    });
+                    if (res.ok) {
+                        btn.innerHTML = '<i class="fa-solid fa-check"></i> Message Sent!';
+                        btn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+                        contactForm.reset();
+                    } else {
+                        throw new Error();
+                    }
+                } catch {
+                    btn.innerHTML = '<i class="fa-solid fa-exclamation-circle"></i> Failed — Email me directly';
+                    btn.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+                } finally {
+                    setTimeout(() => {
+                        btn.innerHTML = originalHTML;
+                        btn.style.background = '';
+                        btn.disabled = false;
+                    }, 5000);
+                }
+            });
+        }
     </script>
 
-    <!-- Lenis Smooth Scroll Library (Apple-like scrolling) -->
+    <!-- Lenis Smooth Scroll -->
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
     <script>
-        // Initialize Lenis
         const lenis = new Lenis({
-            duration: 1.5, // Increased duration for a slower, more luxurious feel
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
-            direction: 'vertical', // vertical, horizontal
-            gestureDirection: 'vertical', // vertical, horizontal, both
+            duration: 1.5,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
             smooth: true,
             mouseMultiplier: 1,
             smoothTouch: false,
             touchMultiplier: 2,
             infinite: false,
         });
-
-        // Use requestAnimationFrame to continuously update the scroll
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
 
-        // Smooth scroll to anchor links using Lenis
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href');
-                if (targetId.length > 1) {
-                    lenis.scrollTo(targetId, {
-                        offset: -80 // Offset for the fixed navbar
-                    });
-                }
+                if (targetId.length > 1) lenis.scrollTo(targetId, { offset: -80 });
             });
         });
     </script>
